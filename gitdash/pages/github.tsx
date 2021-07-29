@@ -10,7 +10,7 @@ export default function github() {
   const [repos, setRepos] = useState([])
 
   // Handle Submit function 
-  function handleSubmit(e) {
+  function handleSubmit(e: { preventDefault: () => void; }) {
     e.preventDefault()
     searchRepos()
   }
@@ -27,6 +27,7 @@ export default function github() {
   }
 
   // Function to render the repos 
+  
   function renderRepo(repo) {
     return (
       <div className="row" key={repo.id}>
