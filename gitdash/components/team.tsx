@@ -116,8 +116,7 @@ export default function TeamSection() {
             <TeamContent>
               <TeamHeading>Backend Web Developer</TeamHeading>
               <TeamText>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Auctor
-                neque sed imperdiet nibh lectus feugiat nunc sem.
+                I mostly break stuff, sometimes it turns out to be something cool. 
               </TeamText>
             </TeamContent>
             <TeamAvatar
