@@ -11,6 +11,7 @@ async function fetcher(...arg: any) {
 
 export default function dashboard() {
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const {data} = useSWR('/api/github', fetcher)
 
   return (
