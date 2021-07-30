@@ -3,8 +3,8 @@ import React from 'react'
 import useSWR from 'swr'
 
 //
-async function fetcher(...arg) {
-  const res = await fetch(...arg)
+async function fetcher(...arg: any) {
+  const res = await fetch(arg)
 
   return res.json()
 }
