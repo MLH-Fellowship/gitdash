@@ -5,7 +5,7 @@ export default async (_req: any, res: { status: (arg0: number) => { (): any; new
     // auth: 
     // github token for a particular user, leaving empty for now
   })
-  const username = "anandrajaram21"    // need to get the input from the user for this  
+  const username = "prakharrathi25"    // need to get the input from the user for this  
 
   // Number of followers
   const followers = await octokit.request(`/users/${username}/followers?per_page=100`)
