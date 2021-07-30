@@ -17,6 +17,23 @@ npm run dev
 yarn dev
 ```
 
+To get the GitHub authentication to work, you need to create a `.env.local` file in the `gitdash` directory with the following content
+
+```
+GITHUB_ID=<your_github_client_id>
+GITHUB_SECRET=<your_github_client_secret>
+```
+
+Follow the guide [here](https://docs.github.com/en/developers/apps/building-oauth-apps/creating-an-oauth-app) to create a new GitHub OAuth app.
+
+The details should look something like this:
+
+![OAuth App Details](https://i.imgur.com/p2yQzuT.png)
+
+On creating the OAuth app on GitHub, you need to set the `GITHUB_ID` in the `.env.local` file as the Client ID you see in the GitHub OAuth App in your account, and the `GITHUB_SECRET` to the Client Secret that you generate. Refer to the image below for more details
+
+![GitHub OAuth App Creds](https://i.imgur.com/NurdT2w.png)
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
