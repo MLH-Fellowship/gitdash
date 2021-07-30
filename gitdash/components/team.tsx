@@ -116,8 +116,9 @@ export default function TeamSection() {
             <TeamContent>
               <TeamHeading>Backend Web Developer</TeamHeading>
               <TeamText>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Auctor
-                neque sed imperdiet nibh lectus feugiat nunc sem.
+                I mostly break stuff, sometimes it turns out to be something cool. 
+                If the number of issues is wrong, I probably initializied the count variable to -1. 
+                Don't ask me why. I will fix it. 
               </TeamText>
             </TeamContent>
             <TeamAvatar
