@@ -7,8 +7,6 @@ import {
   useColorModeValue,
   Heading,
   SimpleGrid,
-  VisuallyHidden,
-  Link,
 } from "@chakra-ui/react";
 import React from "react";
 import Navbar from "../components/navbar";
@@ -18,52 +16,57 @@ export default function Home() {
 
   return (
     <>
-      <Navbar />
-      <Box
-        bg={useColorModeValue("gray.50", "inherit")}
-        minH="100vh"
-        py="12"
-        px={{ base: "4", lg: "8" }}
-      >
-        {!session && (
-          <>
-            <Box maxW="md" mx="auto">
-              <Heading textAlign="center" size="xl" fontWeight="extrabold">
-                Sign in to your account with Github
-              </Heading>
+      <Head>
+        <title>Login</title>
+      </Head>
+      <body>
+        <Navbar />
+        <Box
+          bg={useColorModeValue("gray.50", "inherit")}
+          minH="100vh"
+          py="12"
+          px={{ base: "4", lg: "8" }}
+        >
+          {!session && (
+            <>
+              <Box maxW="md" mx="auto">
+                <Heading textAlign="center" size="xl" fontWeight="extrabold">
+                  Sign in to your account with Github
+                </Heading>
 
-              <SimpleGrid mt="6" columns={1} spacing="3">
-                <Button
-                  colorScheme="teal"
-                  leftIcon={<FaGithub />}
-                  onClick={() => signIn("github")}
-                >
-                  Sign in with GitHub
-                </Button>
-              </SimpleGrid>
-            </Box>
-          </>
-        )}
-        {session && (
-          <>
-            <Box maxW="md" mx="auto">
-              <Heading textAlign="center" size="xl" fontWeight="extrabold">
-                Signed in as {session.user?.name} <br />{" "}
-              </Heading>
+                <SimpleGrid mt="6" columns={1} spacing="3">
+                  <Button
+                    colorScheme="teal"
+                    leftIcon={<FaGithub />}
+                    onClick={() => signIn("github")}
+                  >
+                    Sign in with GitHub
+                  </Button>
+                </SimpleGrid>
+              </Box>
+            </>
+          )}
+          {session && (
+            <>
+              <Box maxW="md" mx="auto">
+                <Heading textAlign="center" size="xl" fontWeight="extrabold">
+                  Signed in as {session.user?.name} <br />{" "}
+                </Heading>
 
-              <SimpleGrid mt="6" columns={1} spacing="3">
-                <Button
-                  colorScheme="teal"
-                  leftIcon={<FaGithub />}
-                  onClick={() => signOut()}
-                >
-                  Sign Out
-                </Button>
-              </SimpleGrid>
-            </Box>
-          </>
-        )}
-      </Box>
+                <SimpleGrid mt="6" columns={1} spacing="3">
+                  <Button
+                    colorScheme="teal"
+                    leftIcon={<FaGithub />}
+                    onClick={() => signOut()}
+                  >
+                    Sign Out
+                  </Button>
+                </SimpleGrid>
+              </Box>
+            </>
+          )}
+        </Box>
+      </body>
     </>
   );
 }
