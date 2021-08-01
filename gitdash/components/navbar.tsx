@@ -17,6 +17,7 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon, AddIcon } from "@chakra-ui/icons";
+import { signOut, useSession } from "next-auth/client";
 
 const Links = ["Dashboard"];
 
@@ -37,6 +38,7 @@ const NavLink = ({ children }: { children: ReactNode }) => (
 
 export default function Navbar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [session, loading] = useSession();
 
   return (
     <>
@@ -50,39 +52,48 @@ export default function Navbar() {
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={"center"}>
-            <Box>GitDash</Box>
-            {/* The HStack below should be showed conditionally (only when user is logged in) */}
-            <HStack
-              as={"nav"}
-              spacing={4}
-              display={{ base: "none", md: "flex" }}
-            >
-              {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
-              ))}
-            </HStack>
-          </HStack>
-          <Flex alignItems={"center"}>
-            <Menu>
-              <MenuButton
-                as={Button}
-                rounded={"full"}
-                variant={"link"}
-                cursor={"pointer"}
-                minW={0}
+            <Link href="/">
+              <Box>GitDash</Box>
+            </Link>
+
+            {session && (
+              <HStack
+                as={"nav"}
+                spacing={4}
+                display={{ base: "none", md: "flex" }}
               >
-                <Avatar
-                  size={"sm"}
-                  src={
-                    "https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
-                  }
-                />
-              </MenuButton>
-              <MenuList>
-                <MenuItem>Sign Out</MenuItem>
-              </MenuList>
-            </Menu>
-          </Flex>
+                {Links.map((link) => (
+                  <NavLink key={link}>{link}</NavLink>
+                ))}
+              </HStack>
+            )}
+          </HStack>
+          {session && (
+            <Flex alignItems={"center"}>
+              <Menu>
+                <MenuButton
+                  as={Button}
+                  rounded={"full"}
+                  variant={"link"}
+                  cursor={"pointer"}
+                  minW={0}
+                >
+                  {session?.user?.image && (
+                    <Avatar size={"sm"} src={session.user?.image} />
+                  )}
+                  {!session?.user?.image && <Avatar size={"sm"} />}
+                </MenuButton>
+                <MenuList>
+                  <MenuItem onClick={() => signOut()}>Sign Out</MenuItem>
+                </MenuList>
+              </Menu>
+            </Flex>
+          )}
+          {!session && (
+            <Link href="/login">
+              <Button size="sm">Log In</Button>
+            </Link>
+          )}
         </Flex>
 
         {isOpen ? (
