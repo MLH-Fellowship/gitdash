@@ -1,6 +1,4 @@
 import Head from "next/head";
-
-import Navbar from "../components/navbar";
 import Hero from "../components/hero";
 import Features from "../components/features";
 import Footer from "../components/footer";
@@ -13,7 +11,7 @@ export default function HomePage() {
         <title>Git Dash</title>
       </Head>
       <body>
-        <Navbar />
+
         <Hero />
         <Features />
         <Team />

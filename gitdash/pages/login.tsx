@@ -20,7 +20,6 @@ export default function Home() {
         <title>Login</title>
       </Head>
       <body>
-        <Navbar />
         <Box
           bg={useColorModeValue("gray.50", "inherit")}
           minH="100vh"
