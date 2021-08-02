@@ -10,13 +10,10 @@ export default function HomePage() {
       <Head>
         <title>Git Dash</title>
       </Head>
-      <body>
-
-        <Hero />
-        <Features />
-        <Team />
-        <Footer />
-      </body>
+      <Hero />
+      <Features />
+      <Team />
+      <Footer />
     </>
   );
 }
