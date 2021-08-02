@@ -1,4 +1,4 @@
-const { Octokit } = require('@octokit/rest')
+import { Octokit } from '@octokit/rest'
 
 export default async (_req: any, res: { status: (arg0: number) => { (): any; new(): any; json: { (arg0: { stars: any; followers: any; starred: any; all_repos: any; repo_count: any; issues: any; issue_count: any }): any; new(): any } } }) => {
   const octokit = new Octokit({
