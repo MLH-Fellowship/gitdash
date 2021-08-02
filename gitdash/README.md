@@ -13,8 +13,8 @@ Then, run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
+# # or
+# yarn dev
 ```
 
 To get the GitHub authentication to work, you need to create a `.env` file in the `gitdash` directory with the following content
