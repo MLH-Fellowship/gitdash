@@ -17,12 +17,8 @@ async function fetcher(...arg: any) {
   return res.json();
 }
 
-export default function dashboard() {
-  const [data, setData] = useState({});
-
-  useEffect(() => {
-    setData(useSWR("/api/github", fetcher));
-  });
+export default function Dashboard() {
+  const {data} = useSWR('/api/github', fetcher)
 
   return (
     <>
