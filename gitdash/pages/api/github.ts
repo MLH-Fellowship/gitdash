@@ -1,11 +1,36 @@
+import { getSession } from "next-auth/client"
+
 const { Octokit } = require('@octokit/rest')
 
-export default async function GetDetails (_req: any, res: { status: (arg0: number) => { (): any; new(): any; json: { (arg0: { stars: any; followers: any; starred: any; all_repos: any; repo_count: any; issues: any; issue_count: any }): any; new(): any } } }): Promise<any> {
+const secret = process.env.GITHUB_SECRET;
+
+export default async function GetDetails (req: any, res: { status: (arg0: number) => { (): any; new(): any; json: { (arg0: { stars: any; followers: any; starred: any; all_repos: any; repo_count: any; issues: any; issue_count: any }): any; new(): any } } }): Promise<any> {
+  const session = await getSession({ req });
+  const axios = require('axios').default;
+  let userData;
+  let username = "prakharrathi25"    // Default value  
+
+  axios.get(
+    "https://api.github.com/user",
+    {headers: {
+        Authorization : `token ${session?.accessToken}`
+      }
+    }
+  )
+  .then((response: { data: any; }) => {
+      userData = response.data;
+      username = userData.login;
+    },
+    (error: { response: { status: any; }; }) => {
+      // How should we handle the error?
+      console.log(error);
+    }
+  );
+
   const octokit = new Octokit({
-    // auth: 
+    auth: session?.accessToken
     // github token for a particular user, leaving empty for now
   })
-  const username = "prakharrathi25"    // need to get the input from the user for this  
 
   // Number of followers
   const followers = await octokit.request(`/users/${username}/followers?per_page=100`)
@@ -25,7 +50,7 @@ export default async function GetDetails (_req: any, res: { status: (arg0: numbe
 
   // Number of issues 
   const issueCount = repos.data.filter((repo: { fork: any }) => !repo.fork).reduce((acc: any, item: { open_issues: any }) => {
-    console.log(item.open_issues)
+    // console.log(item.open_issues)
     return acc + item.open_issues
   }, 0)
 
@@ -43,7 +68,7 @@ export default async function GetDetails (_req: any, res: { status: (arg0: numbe
   // these and get data about all issues pertaining to public repos
 
   // for API Testing 
-  console.log(repos) 
+  // console.log(repos) 
 
   // Return the counts
   return res.status(200).json({ 
