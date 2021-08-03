@@ -18,22 +18,25 @@ import {
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon, AddIcon } from "@chakra-ui/icons";
 import { signOut, useSession } from "next-auth/client";
+import NextLink from "next/link";
 
 const Links = ["Dashboard"];
 
 const NavLink = ({ children }: { children: ReactNode }) => (
-  <Link
-    px={2}
-    py={1}
-    rounded={"md"}
-    _hover={{
-      textDecoration: "none",
-      bg: useColorModeValue("gray.200", "gray.700"),
-    }}
-    href={children?.toString().toLowerCase()}
-  >
-    {children}
-  </Link>
+  <NextLink href={"/" + children?.toString().toLowerCase()}>
+    <Link
+      px={2}
+      py={1}
+      rounded={"md"}
+      _hover={{
+        textDecoration: "none",
+        bg: useColorModeValue("gray.200", "gray.700"),
+      }}
+      cursor="grab"
+    >
+      {children}
+    </Link>
+  </NextLink>
 );
 
 export default function Navbar() {
@@ -52,9 +55,20 @@ export default function Navbar() {
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={"center"}>
-            <Link href="/">
-              <Box>GitDash</Box>
-            </Link>
+            <NextLink href="/">
+              <Link
+                px={2}
+                py={1}
+                rounded={"md"}
+                _hover={{
+                  textDecoration: "none",
+                  bg: useColorModeValue("gray.200", "gray.700"),
+                }}
+                cursor="grab"
+              >
+                GitDash
+              </Link>
+            </NextLink>
 
             {session && (
               <HStack
@@ -90,9 +104,9 @@ export default function Navbar() {
             </Flex>
           )}
           {!session && (
-            <Link href="/login">
+            <NextLink href="/login">
               <Button size="sm">Log In</Button>
-            </Link>
+            </NextLink>
           )}
         </Flex>
 
