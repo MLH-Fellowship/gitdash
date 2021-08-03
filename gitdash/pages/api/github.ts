@@ -1,6 +1,6 @@
 import { getSession } from "next-auth/client";
 
-const { Octokit } = require("@octokit/rest");
+import { Octokit } from "@octokit/core";
 
 const secret = process.env.GITHUB_SECRET;
 
@@ -49,17 +49,17 @@ export default async function GetDetails(
 
   const octokit = new Octokit({
     auth: session?.accessToken,
-    // github token for a particular user, leaving empty for now
   });
 
   // Number of followers
   const followers = await octokit.request(
-    `/users/${username}/followers?per_page=100`
-  );
+    'GET /user/followers?per_page=100'
+  )
   const followerCount = followers.data.length;
 
   // Get all repos
-  const repos = await octokit.request(`/users/${username}/repos`);
+  const repos = await octokit.request('GET /user/repos?per_page=100&sort=updated')
+  console.log(repos)
 
   // Number of stars
   const starsCount = repos.data
@@ -69,7 +69,7 @@ export default async function GetDetails(
     }, 0);
 
   // Number of starred repos
-  const reposStarred = await octokit.request(`/users/${username}/starred`);
+  const reposStarred = await octokit.request('GET /user/starred?per_page=100');
   const starredCount = reposStarred.data.length;
 
   // Number of issues
@@ -91,12 +91,6 @@ export default async function GetDetails(
   const issueLinks = repos.data.map((repo: { issues_url: string | any[] }) =>
     repo.issues_url.slice(0, -9)
   );
-
-  // Note: Just getting the issue links right now but we can loop through
-  // these and get data about all issues pertaining to public repos
-
-  // for API Testing
-  // console.log(repos)
 
   // Return the counts
   return res.status(200).json({
