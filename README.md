@@ -47,7 +47,7 @@ The details should look something like this:
 
 ![OAuth App Details](https://i.imgur.com/p2yQzuT.png)
 
-On creating the OAuth app on GitHub, you need to set the `GITHUB_ID` in the `.env.local` file as the Client ID you see in the GitHub OAuth App in your account, and the `GITHUB_SECRET` to the Client Secret that you generate. Refer to the image below for more details
+On creating the OAuth app on GitHub, you need to set the `GITHUB_ID` in the `.env` file as the Client ID you see in the GitHub OAuth App in your account, and the `GITHUB_SECRET` to the Client Secret that you generate. Refer to the image below for more details
 
 ![GitHub OAuth App Creds](https://i.imgur.com/NurdT2w.png)
 
