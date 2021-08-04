@@ -1,5 +1,6 @@
 import { getSession } from "next-auth/client";
 import { Octokit } from "@octokit/core";
+import parse from "parse-link-header";
 
 export default async function GetDetails(
   req: any,
@@ -54,10 +55,9 @@ export default async function GetDetails(
   const reposStarred = await octokit.request("GET /user/starred?per_page=1");
 
   // Parsing the starred repos using a library
-  const parse = require("parse-link-header");
   const linkHeader = reposStarred.headers.link;
-  const parsed = parse(linkHeader);
-  const starredCount = parsed.last.page;
+  const parsed = linkHeader ? parse(linkHeader) : parse('');
+  const starredCount = parsed?.last.page;
 
   // Number of issues
   const issueCount = repos.data
