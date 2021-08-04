@@ -9,7 +9,6 @@ import {
   HStack,
   Icon,
   useColorModeValue,
-  Link,
   Drawer,
   DrawerContent,
   Text,
@@ -27,6 +26,7 @@ import {
   FiChevronDown,
   FiAlertTriangle,
   FiGitPullRequest,
+  FiLogIn,
 } from "react-icons/fi";
 import { IconType } from "react-icons";
 import { ReactText } from "react";
@@ -45,21 +45,26 @@ const LinkItems: Array<LinkItemProps> = [
   { name: "Pull Requests", icon: FiGitPullRequest, link: "/pullrequests" },
 ];
 
-const LinkItemsNotLoggedIn: Array<LinkItemProps> = [{}];
+const LinkItemsNotLoggedIn: Array<LinkItemProps> = [
+  { name: "Home Page", icon: FiHome, link: "/" },
+  { name: "Login", icon: FiLogIn, link: "/login" },
+];
 
 export default function Sidebar({
   children,
   pageTitle,
 }: {
   children: ReactNode;
-  pageTitle: ReactNode;
+  pageTitle: string;
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [session, loading] = useSession();
   return (
     <Box minH="100vh" bg={useColorModeValue("gray.100", "gray.900")}>
       <SidebarContent
         onClose={() => onClose}
         display={{ base: "none", md: "block" }}
+        session={session}
       />
       <Drawer
         autoFocus={false}
@@ -71,11 +76,10 @@ export default function Sidebar({
         size="full"
       >
         <DrawerContent>
-          <SidebarContent onClose={onClose} />
+          <SidebarContent onClose={onClose} session={session} />
         </DrawerContent>
       </Drawer>
-      {/* mobilenav */}
-      <MobileNav onOpen={onOpen} pageTitle={pageTitle} />
+      <MobileNav onOpen={onOpen} pageTitle={pageTitle} session={session} />
       <Box ml={{ base: 0, md: 60 }} p="4">
         {children}
       </Box>
@@ -85,9 +89,10 @@ export default function Sidebar({
 
 interface SidebarProps extends BoxProps {
   onClose: () => void;
+  session: any;
 }
 
-const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
+const SidebarContent = ({ onClose, session, ...rest }: SidebarProps) => {
   return (
     <Box
       transition="3s ease"
@@ -105,11 +110,17 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         </Text>
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
-      {LinkItems.map((links) => (
-        <NavItem key={links.name} icon={links.icon} link={links.link}>
-          {links.name}
-        </NavItem>
-      ))}
+      {session
+        ? LinkItems.map((links) => (
+            <NavItem key={links.name} icon={links.icon} link={links.link}>
+              {links.name}
+            </NavItem>
+          ))
+        : LinkItemsNotLoggedIn.map((links) => (
+            <NavItem key={links.name} icon={links.icon} link={links.link}>
+              {links.name}
+            </NavItem>
+          ))}
     </Box>
   );
 };
@@ -153,11 +164,10 @@ const NavItem = ({ icon, children, link, ...rest }: NavItemProps) => {
 
 interface MobileProps extends FlexProps {
   onOpen: () => void;
-  pageTitle: () => void;
+  pageTitle: string;
+  session: any;
 }
-const MobileNav = ({ onOpen, pageTitle, ...rest }: MobileProps) => {
-  const [session, loading] = useSession();
-
+const MobileNav = ({ onOpen, pageTitle, session, ...rest }: MobileProps) => {
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
