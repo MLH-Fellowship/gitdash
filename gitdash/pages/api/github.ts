@@ -1,6 +1,6 @@
 import { getSession } from "next-auth/client";
-
 import { Octokit } from "@octokit/core";
+import parse from "parse-link-header";
 
 export default async function GetDetails(
   req: any,
@@ -24,51 +24,40 @@ export default async function GetDetails(
   }
 ): Promise<any> {
   const session = await getSession({ req });
-  const axios = require("axios").default;
-  let userData;
-  let username = ""; // Default value
-
-  await axios
-    .get("https://api.github.com/user", {
-      headers: {
-        Authorization: `token ${session?.accessToken}`,
-      },
-    })
-    .then(
-      (response: { data: any }) => {
-        userData = response.data;
-        username = userData.login;
-      },
-      (error: { response: { status: any } }) => {
-        // How should we handle the error?
-        console.log(error);
-      }
-    );
 
   const octokit = new Octokit({
     auth: session?.accessToken,
   });
 
-  // Number of followers
-  const followers = await octokit.request("GET /user/followers?per_page=100");
-  const followerCount = followers.data.length;
+  // Get user data
+  const userData = await octokit.request("GET /user");
 
   // Get all repos
-  const repos = await octokit.request(
-    "GET /user/repos?per_page=100&sort=updated"
-  );
-  console.log(repos);
+  const repos = await octokit.request("GET /user/repos");
+
+  // Number of followers
+  const followerCount = userData.data.followers;
 
   // Number of stars
+  // Note this really needs some way of optimizing instead of getting all the repos, parsing
+  // and adding. GraphQL!!!!!!!!
   const starsCount = repos.data
     .filter((repo: { fork: any }) => !repo.fork)
     .reduce((acc: any, item: { stargazers_count: any }) => {
       return acc + item.stargazers_count;
     }, 0);
 
-  // Number of starred repos
-  const reposStarred = await octokit.request("GET /user/starred?per_page=100");
-  const starredCount = reposStarred.data.length;
+  // Get Number of starred repos by using a weird hack since Github api doesnt have a endpoint.
+  // You parse the link header in the response to get the rel_last which relates to the totat
+  // count if the per_page is set to one
+
+  // Making the request to get the response :/
+  const reposStarred = await octokit.request("GET /user/starred?per_page=1");
+
+  // Parsing the starred repos using a library
+  const linkHeader = reposStarred.headers.link;
+  const parsed = linkHeader ? parse(linkHeader) : parse('');
+  const starredCount = parsed?.last.page;
 
   // Number of issues
   const issueCount = repos.data
