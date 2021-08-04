@@ -1,12 +1,4 @@
-import {
-  Box,
-  Heading,
-  Flex,
-  Stat,
-  StatLabel,
-  StatNumber,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Flex, Stat, StatLabel, StatNumber, Text } from "@chakra-ui/react";
 import useSWR from "swr";
 import Head from "next/head";
 import Sidebar from "../components/sidebar";
@@ -25,11 +17,8 @@ export default function Dashboard() {
       <Head>
         <title>Dashboard</title>
       </Head>
-      <Sidebar>
+      <Sidebar pageTitle="Dashboard">
         <Box mt={5}>
-          <Heading as="h1" textAlign="center" size="2xl" mb={5}>
-            Your Dashboard
-          </Heading>
           <Flex justify="center">
             {/* Add boxes for each display */}
             <Box w="300px" p={5} ml={5} mb={3} borderWidth="1px" rounded="lg">

@@ -5,8 +5,8 @@ import {
   Box,
   CloseButton,
   Flex,
+  Spacer,
   HStack,
-  VStack,
   Icon,
   useColorModeValue,
   Link,
@@ -18,19 +18,15 @@ import {
   FlexProps,
   Menu,
   MenuButton,
-  MenuDivider,
   MenuItem,
   MenuList,
 } from "@chakra-ui/react";
 import {
   FiHome,
-  FiTrendingUp,
-  FiCompass,
-  FiStar,
-  FiSettings,
   FiMenu,
-  FiBell,
   FiChevronDown,
+  FiAlertTriangle,
+  FiGitPullRequest,
 } from "react-icons/fi";
 import { IconType } from "react-icons";
 import { ReactText } from "react";
@@ -41,19 +37,22 @@ import NextLink from "next/link";
 interface LinkItemProps {
   name: string;
   icon: IconType;
+  link: string;
 }
 const LinkItems: Array<LinkItemProps> = [
-  { name: "Home", icon: FiHome },
-  { name: "Trending", icon: FiTrendingUp },
-  { name: "Explore", icon: FiCompass },
-  { name: "Favourites", icon: FiStar },
-  { name: "Settings", icon: FiSettings },
+  { name: "Dashboard", icon: FiHome, link: "/dashboard" },
+  { name: "Issues", icon: FiAlertTriangle, link: "/issues" },
+  { name: "Pull Requests", icon: FiGitPullRequest, link: "/pullrequests" },
 ];
 
-export default function SidebarWithHeader({
+const LinkItemsNotLoggedIn: Array<LinkItemProps> = [{}];
+
+export default function Sidebar({
   children,
+  pageTitle,
 }: {
   children: ReactNode;
+  pageTitle: ReactNode;
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
@@ -76,7 +75,7 @@ export default function SidebarWithHeader({
         </DrawerContent>
       </Drawer>
       {/* mobilenav */}
-      <MobileNav onOpen={onOpen} />
+      <MobileNav onOpen={onOpen} pageTitle={pageTitle} />
       <Box ml={{ base: 0, md: 60 }} p="4">
         {children}
       </Box>
@@ -102,13 +101,13 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
         <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-          Logo
+          <NextLink href="/">Git Dash</NextLink>
         </Text>
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
-      {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon}>
-          {link.name}
+      {LinkItems.map((links) => (
+        <NavItem key={links.name} icon={links.icon} link={links.link}>
+          {links.name}
         </NavItem>
       ))}
     </Box>
@@ -118,10 +117,11 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
 interface NavItemProps extends FlexProps {
   icon: IconType;
   children: ReactText;
+  link: string;
 }
-const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
+const NavItem = ({ icon, children, link, ...rest }: NavItemProps) => {
   return (
-    <Link href="#" style={{ textDecoration: "none" }}>
+    <NextLink href={link}>
       <Flex
         align="center"
         p="4"
@@ -147,14 +147,17 @@ const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
         )}
         {children}
       </Flex>
-    </Link>
+    </NextLink>
   );
 };
 
 interface MobileProps extends FlexProps {
   onOpen: () => void;
+  pageTitle: () => void;
 }
-const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
+const MobileNav = ({ onOpen, pageTitle, ...rest }: MobileProps) => {
+  const [session, loading] = useSession();
+
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -164,7 +167,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
       bg={useColorModeValue("white", "gray.900")}
       borderBottomWidth="1px"
       borderBottomColor={useColorModeValue("gray.200", "gray.700")}
-      justifyContent={{ base: "space-between", md: "flex-end" }}
+      justifyContent={{ base: "space-between" }}
       {...rest}
     >
       <IconButton
@@ -176,60 +179,48 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
       />
 
       <Text
-        display={{ base: "flex", md: "none" }}
+        display={{ base: "flex" }}
         fontSize="2xl"
         fontFamily="monospace"
         fontWeight="bold"
       >
-        Logo
+        {pageTitle}
       </Text>
 
+      <Spacer />
+
       <HStack spacing={{ base: "0", md: "6" }}>
-        <IconButton
-          size="lg"
-          variant="ghost"
-          aria-label="open menu"
-          icon={<FiBell />}
-        />
         <Flex alignItems={"center"}>
           <Menu>
             <MenuButton
               py={2}
               transition="all 0.3s"
               _focus={{ boxShadow: "none" }}
+              id="menu-button"
             >
-              <HStack>
-                <Avatar
-                  size={"sm"}
-                  src={
-                    "https://images.unsplash.com/photo-1619946794135-5bc917a27793?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
-                  }
-                />
-                <VStack
-                  display={{ base: "none", md: "flex" }}
-                  alignItems="flex-start"
-                  spacing="1px"
-                  ml="2"
-                >
-                  <Text fontSize="sm">Justina Clark</Text>
-                  <Text fontSize="xs" color="gray.600">
-                    Admin
-                  </Text>
-                </VStack>
-                <Box display={{ base: "none", md: "flex" }}>
-                  <FiChevronDown />
-                </Box>
-              </HStack>
+              {session && (
+                <HStack>
+                  {session?.user?.image && (
+                    <Avatar size={"sm"} src={session.user?.image} />
+                  )}
+                  {!session?.user?.image && <Avatar size={"sm"} />}
+                  <Box display={{ base: "none", md: "flex" }}>
+                    <FiChevronDown />
+                  </Box>
+                </HStack>
+              )}
             </MenuButton>
             <MenuList
               bg={useColorModeValue("white", "gray.900")}
               borderColor={useColorModeValue("gray.200", "gray.700")}
             >
-              <MenuItem>Profile</MenuItem>
-              <MenuItem>Settings</MenuItem>
-              <MenuItem>Billing</MenuItem>
-              <MenuDivider />
-              <MenuItem>Sign out</MenuItem>
+              <MenuItem
+                onClick={() =>
+                  signOut({ callbackUrl: "http://localhost:3000/login" })
+                }
+              >
+                Sign out
+              </MenuItem>
             </MenuList>
           </Menu>
         </Flex>

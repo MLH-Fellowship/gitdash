@@ -66,7 +66,7 @@ export default function Navbar() {
                 }}
                 cursor="grab"
               >
-                GitDash
+                Git Dash
               </Link>
             </NextLink>
 
@@ -98,7 +98,13 @@ export default function Navbar() {
                   {!session?.user?.image && <Avatar size={"sm"} />}
                 </MenuButton>
                 <MenuList>
-                  <MenuItem onClick={() => signOut({ callbackUrl: 'http://localhost:3000' })}>Sign Out</MenuItem>
+                  <MenuItem
+                    onClick={() =>
+                      signOut({ callbackUrl: "http://localhost:3000/login" })
+                    }
+                  >
+                    Sign Out
+                  </MenuItem>
                 </MenuList>
               </Menu>
             </Flex>
