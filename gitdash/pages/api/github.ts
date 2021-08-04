@@ -2,8 +2,6 @@ import { getSession } from "next-auth/client";
 
 import { Octokit } from "@octokit/core";
 
-const secret = process.env.GITHUB_SECRET;
-
 export default async function GetDetails(
   req: any,
   res: {
@@ -52,14 +50,14 @@ export default async function GetDetails(
   });
 
   // Number of followers
-  const followers = await octokit.request(
-    'GET /user/followers?per_page=100'
-  )
+  const followers = await octokit.request("GET /user/followers?per_page=100");
   const followerCount = followers.data.length;
 
   // Get all repos
-  const repos = await octokit.request('GET /user/repos?per_page=100&sort=updated')
-  console.log(repos)
+  const repos = await octokit.request(
+    "GET /user/repos?per_page=100&sort=updated"
+  );
+  console.log(repos);
 
   // Number of stars
   const starsCount = repos.data
@@ -69,7 +67,7 @@ export default async function GetDetails(
     }, 0);
 
   // Number of starred repos
-  const reposStarred = await octokit.request('GET /user/starred?per_page=100');
+  const reposStarred = await octokit.request("GET /user/starred?per_page=100");
   const starredCount = reposStarred.data.length;
 
   // Number of issues

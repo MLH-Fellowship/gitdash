@@ -102,8 +102,9 @@ export default function TeamSection() {
             <TeamContent>
               <TeamHeading>Frontend Web Developer</TeamHeading>
               <TeamText>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Auctor
-                neque sed imperdiet nibh lectus feugiat nunc sem.
+                My name is Alesana, and I am a Co-founder and Frontend Web
+                Developer at Git Dash. I primarily work on making the website as
+                performant as possible.
               </TeamText>
             </TeamContent>
             <TeamAvatar
@@ -116,9 +117,9 @@ export default function TeamSection() {
             <TeamContent>
               <TeamHeading>Backend Web Developer</TeamHeading>
               <TeamText>
-                I mostly break stuff, sometimes it turns out to be something cool. 
-                If the number of issues is wrong, I probably initializied the count variable to -1. 
-                Don't ask me why. I will fix it. 
+                My name is Prakhar, and I am a Co-founder and Backend Web
+                Developer at Git Dash. I primarily work on getting the data
+                required for the website from various sources.{" "}
               </TeamText>
             </TeamContent>
             <TeamAvatar
@@ -131,8 +132,9 @@ export default function TeamSection() {
             <TeamContent>
               <TeamHeading>Frontend Web Developer</TeamHeading>
               <TeamText>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Auctor
-                neque sed imperdiet nibh lectus feugiat nunc sem.
+                My name is Anand, and I am a Co-founder and Frontend Web
+                Developer at Git Dash. I primarily work on the UI/UX of the
+                website, and try to make it as easy as possible for you to use.
               </TeamText>
             </TeamContent>
             <TeamAvatar
