@@ -9,6 +9,7 @@ import {
   SimpleGrid,
 } from "@chakra-ui/react";
 import React from "react";
+import Navbar from "../components/navbar";
 
 export default function Home() {
   const [session, loading] = useSession();
@@ -18,6 +19,7 @@ export default function Home() {
       <Head>
         <title>Login</title>
       </Head>
+      <Navbar />
       <Box
         bg={useColorModeValue("gray.50", "inherit")}
         minH="100vh"
@@ -35,7 +37,11 @@ export default function Home() {
                 <Button
                   colorScheme="teal"
                   leftIcon={<FaGithub />}
-                  onClick={() => signIn("github", { callbackUrl: 'http://localhost:3000/dashboard' })}
+                  onClick={() =>
+                    signIn("github", {
+                      callbackUrl: "http://localhost:3000/dashboard",
+                    })
+                  }
                 >
                   Sign in with GitHub
                 </Button>
@@ -54,7 +60,9 @@ export default function Home() {
                 <Button
                   colorScheme="teal"
                   leftIcon={<FaGithub />}
-                  onClick={() => signOut({ callbackUrl: 'http://localhost:3000' })}
+                  onClick={() =>
+                    signOut({ callbackUrl: "http://localhost:3000" })
+                  }
                 >
                   Sign Out
                 </Button>

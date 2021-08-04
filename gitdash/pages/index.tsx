@@ -3,6 +3,7 @@ import Hero from "../components/hero";
 import Features from "../components/features";
 import Footer from "../components/footer";
 import Team from "../components/team";
+import Navbar from "../components/navbar";
 
 export default function HomePage() {
   return (
@@ -10,6 +11,7 @@ export default function HomePage() {
       <Head>
         <title>Git Dash</title>
       </Head>
+      <Navbar />
       <Hero />
       <Features />
       <Team />
