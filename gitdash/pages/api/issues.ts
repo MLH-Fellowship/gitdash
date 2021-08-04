@@ -1,19 +1,38 @@
 import { Octokit } from "@octokit/core";
+import { getSession } from "next-auth/client";
 
-const Issues = async (req: any, res: any) => {
+export default async function GetIssueDetails(
+  req: any,
+  res: {
+    status: (arg0: number) => {
+      (): any;
+      new (): any;
+      json: {
+        (arg0: {
+          output: any; 
+        }): any;
+        new (): any;
+      };
+    };
+  }
+): Promise<any> {
+  const session = await getSession({ req });
+
   const octokit = new Octokit({
-    auth: "",
+    auth: session?.accessToken,
   });
 
   // Get issues data
-  const assigned_issues = await octokit.request("GET /issues?filter=assigned");
-  console.log(assigned_issues);
+  const assignedIssues = await octokit.request(`GET /repos/{owner}/{repo}/issues`, {
+    owner: 'prakharrathi25', 
+    repo: 'intellimart'
+  })
 
-  // We can get specific data from it as well but for now returning everything.
+  // Get all repos
+  // console.log(assignedIssues);
 
   return res.status(200).json({
-    assignedIssues: assigned_issues.data,
+    output: assignedIssues.data,
   });
-};
+}
 
-export default Issues;
