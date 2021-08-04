@@ -31,6 +31,7 @@ export default async function GetDetails(
 
   // Get user data
   const userData = await octokit.request("GET /user");
+  const username = userData.data.login
 
   // Get all repos
   const repos = await octokit.request("GET /user/repos");
@@ -40,7 +41,7 @@ export default async function GetDetails(
 
   // Number of stars
   // Note this really needs some way of optimizing instead of getting all the repos, parsing
-  // and adding. GraphQL!!!!!!!!
+  // and adding. GraphQL!!!!!!!! We need this optimisation in a lot of places 
   const starsCount = repos.data
     .filter((repo: { fork: any }) => !repo.fork)
     .reduce((acc: any, item: { stargazers_count: any }) => {
