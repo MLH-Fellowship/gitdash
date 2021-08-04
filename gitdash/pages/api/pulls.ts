@@ -24,26 +24,23 @@ export default async function GetPullDetails(
   // Get all repos
   const repos = await octokit.request("GET /user/repos");
 
-  // List of repos
-  const repo_names = repos.data;
 
   // Iterate through the repo names and collect the pull data
   const allPullData = [];
-  for (let repo of repo_names) {
+  for (let repo of repos.data) {
     if (repo.owner) {
       // Get pull request data
       const pullData = await octokit.request(
         `GET /repos/{owner}/{repo}/pulls`,
         {
-          owner: repo.owner?.login,
+          owner: repo.owner.login,
           repo: repo.name,
         }
       );
-      if (pullData.status === 200 && pullData.data) {
-        // Iterate through the pullData
-        for (let pull of pullData.data) {
-          allPullData.push(pull);
-        }
+
+      // Iterate through the pullData
+      for (let pull of pullData.data) {
+        allPullData.push(pull);
       }
     }
   }

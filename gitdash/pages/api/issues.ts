@@ -8,10 +8,7 @@ export default async function GetIssueDetails(
       (): any;
       new (): any;
       json: {
-        (arg0: {
-          output: any; 
-          count: any;
-        }): any;
+        (arg0: { output: any; count: any }): any;
         new (): any;
       };
     };
@@ -25,39 +22,37 @@ export default async function GetIssueDetails(
 
   // Get user data
   const userData = await octokit.request("GET /user");
-  const username = userData.data.login
+  const username = userData.data.login;
 
   // Get all repos
-  const repos = await octokit.request("GET /user/repos?per_page=100&sort=updated&type=owner");
+  const repos = await octokit.request(
+    "GET /user/repos"
+  );
 
-  // List of repos
-  const repo_names = repos.data.map((repo: { name: any }) => repo.name);
+  // Iterate through the repo names and collect the pull data
+  const allAssignedIssues = [];
+  for (let repo of repos.data) {
+    if (repo.owner) {
+      // Get issues data
+      const assignedIssues = await octokit.request(
+        `GET /repos/{owner}/{repo}/issues?assignee=${username}&sort=updated&per_page=1`,
+        {
+          owner: repo.owner.login,
+          repo: repo.name,
+        }
+      );
 
-  // Iterate through the repo names and collect the pull data 
-  const allAssignedIssues = []
-  for(let repo of repo_names){
-    console.log(username, repo)
-    
-    // Get issues data
-    const assignedIssues = await octokit.request(`GET /repos/{owner}/{repo}/issues?assignee=${username}&sort=updated&per_page=100`, {
-      owner: username, 
-      repo: repo
-    })
-    if(assignedIssues.status === 200 && assignedIssues.data) {
-      
       // Iterate through the pullData
-      for(let pull of assignedIssues.data){
-        allAssignedIssues.push(pull)
+      for (let pull of assignedIssues.data) {
+        allAssignedIssues.push(pull);
       }
     }
-    
   }
-  console.log("Actual data")
-  console.log(allAssignedIssues)
+  console.log("Actual data");
+  console.log(allAssignedIssues);
 
   return res.status(200).json({
     output: allAssignedIssues,
-    count: allAssignedIssues.length
+    count: allAssignedIssues.length,
   });
 }
-
