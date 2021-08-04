@@ -39,7 +39,7 @@ export default async function GetIssueDetails(
     console.log(username, repo)
     
     // Get issues data
-    const assignedIssues = await octokit.request(`GET /repos/{owner}/{repo}/issues`, {
+    const assignedIssues = await octokit.request(`GET /repos/{owner}/{repo}/issues?assignee=${username}&sort=updated&per_page=100`, {
       owner: username, 
       repo: repo
     })
