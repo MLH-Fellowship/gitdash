@@ -26,7 +26,7 @@ export default async function GetPullDetails(
   const username = userData.data.login;
 
   // Get all repos
-  const repos = await octokit.request("GET /user/repos");
+  const repos = await octokit.request("GET /user/repos?per_page=100&sort=updated&type=owner");
 
   // List of repos
   const repo_names = repos.data;
