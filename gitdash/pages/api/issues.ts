@@ -22,7 +22,6 @@ export default async function GetIssueDetails(
 
   // Get user data
   const userData = await octokit.request("GET /user");
-  const username = userData.data.login;
 
   // Get all repos
   const repos = await octokit.request(
@@ -35,7 +34,7 @@ export default async function GetIssueDetails(
     if (repo.owner) {
       // Get issues data
       const assignedIssues = await octokit.request(
-        `GET /repos/{owner}/{repo}/issues?assignee=${username}&sort=updated&per_page=1`,
+        `GET /repos/{owner}/{repo}/issues?assignee=${userData.data.login}&sort=updated&per_page=1`,
         {
           owner: repo.owner.login,
           repo: repo.name,
