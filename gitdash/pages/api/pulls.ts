@@ -9,10 +9,7 @@ export default async function GetPullDetails(
       (): any;
       new (): any;
       json: {
-        (arg0: {
-          pulls: any;
-          count: any;
-        }): any;
+        (arg0: { pulls: any; count: any }): any;
         new (): any;
       };
     };
@@ -26,39 +23,40 @@ export default async function GetPullDetails(
 
   // Get user data
   const userData = await octokit.request("GET /user");
-  const username = userData.data.login
+  const username = userData.data.login;
 
   // Get all repos
   const repos = await octokit.request("GET /user/repos");
 
   // List of repos
-  const repo_names = repos.data.map((repo: { name: any }) => repo.name);
+  const repo_names = repos.data;
 
-  // Iterate through the repo names and collect the pull data 
-  const allPullData = []
-  for(let repo of repo_names){
-    console.log(username, repo)
-    
-    // Get pull request data 
-    const pullData = await octokit.request(`GET /repos/{owner}/{repo}/pulls`, {
-      owner: username,
-      repo: repo
-    })
-    if(pullData.status === 200 && pullData.data) {
-      // Iterate through the pullData
-      for(let pull of pullData.data){
-        allPullData.push(pull)
+  // Iterate through the repo names and collect the pull data
+  const allPullData = [];
+  for (let repo of repo_names) {
+    if (repo.owner) {
+      // Get pull request data
+      const pullData = await octokit.request(
+        `GET /repos/{owner}/{repo}/pulls`,
+        {
+          owner: repo.owner?.login,
+          repo: repo.name,
+        }
+      );
+      if (pullData.status === 200 && pullData.data) {
+        // Iterate through the pullData
+        for (let pull of pullData.data) {
+          allPullData.push(pull);
+        }
       }
     }
-    
   }
-  console.log("Actual data")
-  console.log(allPullData)
-  
+  console.log("Actual data");
+  console.log(allPullData);
 
   // Return the counts
   return res.status(200).json({
     pulls: allPullData,
-    count: allPullData.length
+    count: allPullData.length,
   });
 }
