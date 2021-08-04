@@ -1,7 +1,6 @@
-// import { Octokit } from '@octokit/rest'
-const { Octokit } = require("@octokit/core");
+import { Octokit } from "@octokit/core";
 
-export default async (req: any, res: any) => {
+const Issues = async (req: any, res: any) => {
   const octokit = new Octokit({
     auth: "",
   });
@@ -16,3 +15,5 @@ export default async (req: any, res: any) => {
     assignedIssues: assigned_issues.data,
   });
 };
+
+export default Issues;

@@ -15,13 +15,6 @@ import {
 export default function Hero() {
   return (
     <>
-      <Head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap"
-          rel="stylesheet"
-        />
-      </Head>
-
       <Container maxW={"5xl"}>
         <Stack
           as={Box}
@@ -51,7 +44,7 @@ export default function Hero() {
             alignSelf={"center"}
             position={"relative"}
           >
-            <Link href="/login">
+            <Link href="/login" passHref>
               <Button
                 colorScheme={"green"}
                 bg={"green.400"}
@@ -73,16 +66,6 @@ export default function Hero() {
                 right={-71}
                 top={"10px"}
               />
-              <Text
-                fontSize={"lg"}
-                fontFamily={"Caveat"}
-                position={"absolute"}
-                right={"-125px"}
-                top={"-15px"}
-                transform={"rotate(10deg)"}
-              >
-                Completely free!
-              </Text>
             </Box>
           </Stack>
         </Stack>
