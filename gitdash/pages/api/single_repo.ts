@@ -26,6 +26,7 @@ export default async function GetDetails(
   }
 ): Promise<any> {
   const session = await getSession({ req });
+  const {repo} = req.query
 
   const octokit = new Octokit({
     auth: session?.accessToken,
@@ -35,15 +36,12 @@ export default async function GetDetails(
   const userData = await octokit.request("GET /user");
   const username = userData.data.login
 
-  // Repo name - to be set dynamically (or can be passed as a get request)
-  const repoName = 'intellimart' 
-
   // Get the data about the spcific repo
   const repoData = await octokit.request(
     'GET /repos/{owner}/{repo}', 
   {
     owner: username,
-    repo: repoName
+    repo: repo
   })
 
   // Get repo contributors 
@@ -51,7 +49,7 @@ export default async function GetDetails(
     'GET /repos/{owner}/{repo}/contributors', 
   {
     owner: username,
-    repo: repoName
+    repo: repo
   })
 
   // Get repo languages 
@@ -59,7 +57,7 @@ export default async function GetDetails(
     'GET /repos/{owner}/{repo}/languages', 
   {
     owner: username,
-    repo: repoName
+    repo: repo
   })
 
   // Get repo tags 
@@ -67,7 +65,7 @@ export default async function GetDetails(
     'GET /repos/{owner}/{repo}/tags', 
   {
     owner: username,
-    repo: repoName
+    repo: repo
   })
   
   // Get a list of branches 
@@ -75,7 +73,7 @@ export default async function GetDetails(
     'GET /repos/{owner}/{repo}/branches', 
   {
     owner: username,
-    repo: repoName
+    repo: repo
   })
 
   // Get a list of commit data 
@@ -83,7 +81,7 @@ export default async function GetDetails(
     'GET /repos/{owner}/{repo}/commits?per_page=100', 
   {
     owner: username,
-    repo: repoName
+    repo: repo
   })
 
   // Get Forks 
@@ -91,14 +89,14 @@ export default async function GetDetails(
     'GET /repos/{owner}/{repo}/forks?per_page=100', 
   {
     owner: username,
-    repo: repoName
+    repo: repo
   })
 
 
   // Return the data
   return res.status(200).json({
     user: username,
-    repoName: repoName,
+    repoName: repo,
     contributors: contributors.data, 
     languages: languages.data, 
     tags: tags.data,
