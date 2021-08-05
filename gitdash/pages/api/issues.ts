@@ -30,6 +30,7 @@ export default async function GetIssueDetails(
 
   // Iterate through the repo names and collect the pull data
   const allAssignedIssues = [];
+
   for (let repo of repos.data) {
     if (repo.owner) {
       // Get issues data
@@ -40,10 +41,10 @@ export default async function GetIssueDetails(
           repo: repo.name,
         }
       );
-
-      // Iterate through the pullData
-      for (let pull of assignedIssues.data) {
-        allAssignedIssues.push(pull);
+      
+      // Iterate through the assignedIssues
+      for (let issue of assignedIssues.data) {
+        allAssignedIssues.push(issue);
       }
     }
   }
