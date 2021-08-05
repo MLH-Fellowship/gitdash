@@ -31,6 +31,7 @@ export default async function GetDetails(
 
   // Get user data
   const userData = await octokit.request("GET /user");
+  const username = userData.data.login
 
   // Get all repos
   const repos = await octokit.request("GET /user/repos");
@@ -40,16 +41,12 @@ export default async function GetDetails(
 
   // Number of stars
   // Note this really needs some way of optimizing instead of getting all the repos, parsing
-  // and adding. GraphQL!!!!!!!!
+  // and adding. GraphQL!!!!!!!! We need this optimisation in a lot of places 
   const starsCount = repos.data
     .filter((repo: { fork: any }) => !repo.fork)
     .reduce((acc: any, item: { stargazers_count: any }) => {
       return acc + item.stargazers_count;
     }, 0);
-
-  // Get Number of starred repos by using a weird hack since Github api doesnt have a endpoint.
-  // You parse the link header in the response to get the rel_last which relates to the totat
-  // count if the per_page is set to one
 
   // Making the request to get the response :/
   const reposStarred = await octokit.request("GET /user/starred?per_page=1");
@@ -63,7 +60,6 @@ export default async function GetDetails(
   const issueCount = repos.data
     .filter((repo: { fork: any }) => !repo.fork)
     .reduce((acc: any, item: { open_issues: any }) => {
-      // console.log(item.open_issues)
       return acc + item.open_issues;
     }, 0);
 
