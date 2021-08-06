@@ -9,6 +9,7 @@ import {
   HStack,
   Center,
   Spinner,
+  Divider,
 } from "@chakra-ui/react";
 import Head from "next/head";
 import Sidebar from "../components/sidebar";
@@ -27,7 +28,6 @@ export default function Dashboard() {
   const { data: githubData } = useSWR("/api/github", fetcher);
   const { data: issueData } = useSWR("/api/issues", fetcher);
 
-  console.log(issueData);
   return (
     <>
       <Head>
@@ -84,11 +84,17 @@ export default function Dashboard() {
           </Flex>
         </Sidebar>
       ) : (
-        <>
-          <Center mt={5}>
-            <Spinner size="xl" />
-          </Center>
-        </>
+        <Flex
+          justifyContent="center"
+          alignItems="center"
+          flexDirection="column"
+          mt={5}
+        >
+          <Text fontSize="xl" fontWeight={600}>
+            Please wait...{"\n"}
+          </Text>
+          <Spinner size="xl" />
+        </Flex>
       )}
     </>
   );
