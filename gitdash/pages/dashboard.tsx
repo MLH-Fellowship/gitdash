@@ -87,6 +87,7 @@ export default function Dashboard() {
                         issueBody={issue.body}
                         issueLabels={issue.labels}
                         issueRepo={issue.html_url}
+                        key={issue.id}
                       />
                     ))
                 ) : (
@@ -106,6 +107,7 @@ export default function Dashboard() {
                         issueBody={pr.body}
                         issueLabels={pr.labels}
                         issueRepo={pr.html_url}
+                        key={pr.id}
                       />
                     ))
                 ) : (

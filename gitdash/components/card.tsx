@@ -53,7 +53,7 @@ export default function IssueCard({
 
         <Stack align={"center"} justify={"center"} direction={"row"} mt={"3px"}>
           {issueLabels.map((label: any) => (
-            <Tag px={2} py={1} fontWeight={"400"}>
+            <Tag key={label.id} px={2} py={1} fontWeight={"400"}>
               {label.name}
             </Tag>
           ))}
