@@ -5,13 +5,13 @@ import {
   StatLabel,
   StatNumber,
   Text,
+  Stack,
   VStack,
-  HStack,
   Spinner,
 } from "@chakra-ui/react";
 import Head from "next/head";
 import Sidebar from "../components/sidebar";
-import IssueCard from "../components/issuecard";
+import IssueCard from "../components/card";
 import useSWR from "swr";
 
 async function fetcher(...arg: any) {
@@ -27,6 +27,8 @@ export default function Dashboard() {
   const { data: githubData } = useSWR("/api/github", fetcher);
   const { data: issueData } = useSWR("/api/issues", fetcher);
 
+  console.log(issueData);
+
   return (
     <>
       <Head>
@@ -34,8 +36,8 @@ export default function Dashboard() {
       </Head>
       {githubData ? (
         <Sidebar pageTitle="Dashboard" githubData={githubData}>
-          <Flex justify="center" wrap="wrap" mt={5}>
-            <Box w="300px" p={5} ml={5} mb={3} borderWidth="1px" rounded="lg">
+          {/* <Flex justify="center" wrap="wrap" mt={5}>
+            <Box w="300px" p={5} ml={20} mb={3} borderWidth="1px" rounded="lg">
               <Stat>
                 <StatLabel>
                   <Text fontSize="xl">Github Stars</Text>
@@ -65,38 +67,47 @@ export default function Dashboard() {
                 </StatNumber>
               </Stat>
             </Box>
-          </Flex>
+          </Flex> */}
           <Flex justify="center" wrap="wrap" mt={5}>
-            <HStack>
+            <Stack
+              direction={{ base: "column", xl: "row" }}
+              spacing={{ base: "10px", xl: "220px" }}
+            >
               <VStack>
-                <Text fontSize="xl">Issues</Text>
-                {issueData ? (
-                  issueData.output.map((issue) => (
-                    <IssueCard
-                      issueName={issue.title}
-                      issueBody={issue.body}
-                      issueLabels={issue.labels}
-                    />
-                  ))
-                ) : (
-                  <Spinner size="xl" />
-                )}
-              </VStack>
-              <VStack>
-                <Text fontSize="xl">Pull Requests</Text>
+                <Text fontSize="xl" fontWeight="800">
+                  Issues
+                </Text>
                 {issueData ? (
                   issueData.output.map((issue: any) => (
                     <IssueCard
                       issueName={issue.title}
                       issueBody={issue.body}
                       issueLabels={issue.labels}
+                      issueRepo={issue.html_url}
                     />
                   ))
                 ) : (
                   <Spinner size="xl" />
                 )}
               </VStack>
-            </HStack>
+              <VStack>
+                <Text fontSize="xl" fontWeight="800">
+                  Pull Requests
+                </Text>
+                {issueData ? (
+                  issueData.output.map((issue: any) => (
+                    <IssueCard
+                      issueName={issue.title}
+                      issueBody={issue.body}
+                      issueLabels={issue.labels}
+                      issueRepo={issue.html_url}
+                    />
+                  ))
+                ) : (
+                  <Spinner size="xl" />
+                )}
+              </VStack>
+            </Stack>
           </Flex>
         </Sidebar>
       ) : (

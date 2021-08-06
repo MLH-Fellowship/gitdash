@@ -8,19 +8,27 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 
+function extractRepoName(issueUrl: string) {
+  var url = new URL(issueUrl);
+  var pathArray = url.pathname.split("/");
+  return pathArray[1] + "/" + pathArray[2];
+}
+
 export default function IssueCard({
   issueName,
   issueBody,
   issueLabels,
+  issueRepo,
 }: {
   issueName: string;
   issueBody: string;
   issueLabels: any;
+  issueRepo: any;
 }) {
   return (
     <Center py={6}>
       <Box
-        w={"320px"}
+        w={{ base: "320px", md: "450px" }}
         bg={useColorModeValue("white", "gray.800")}
         boxShadow={"2xl"}
         rounded={"lg"}
@@ -30,6 +38,9 @@ export default function IssueCard({
         <Heading fontSize={"2xl"} fontFamily={"body"}>
           {issueName}
         </Heading>
+        <Text fontWeight={600} color={"gray.500"} mb={4}>
+          Repo: {extractRepoName(issueRepo)}
+        </Text>
         <Text
           textAlign={"center"}
           color={useColorModeValue("gray.700", "gray.400")}
