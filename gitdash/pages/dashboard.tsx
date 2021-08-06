@@ -7,12 +7,11 @@ import {
   Text,
   VStack,
   HStack,
-  Center,
   Spinner,
-  Divider,
 } from "@chakra-ui/react";
 import Head from "next/head";
 import Sidebar from "../components/sidebar";
+import IssueCard from "../components/issuecard";
 import useSWR from "swr";
 
 async function fetcher(...arg: any) {
@@ -72,13 +71,30 @@ export default function Dashboard() {
               <VStack>
                 <Text fontSize="xl">Issues</Text>
                 {issueData ? (
-                  <Text>{issueData?.output[0].body}</Text>
+                  issueData.output.map((issue) => (
+                    <IssueCard
+                      issueName={issue.title}
+                      issueBody={issue.body}
+                      issueLabels={issue.labels}
+                    />
+                  ))
                 ) : (
                   <Spinner size="xl" />
                 )}
               </VStack>
               <VStack>
                 <Text fontSize="xl">Pull Requests</Text>
+                {issueData ? (
+                  issueData.output.map((issue: any) => (
+                    <IssueCard
+                      issueName={issue.title}
+                      issueBody={issue.body}
+                      issueLabels={issue.labels}
+                    />
+                  ))
+                ) : (
+                  <Spinner size="xl" />
+                )}
               </VStack>
             </HStack>
           </Flex>
