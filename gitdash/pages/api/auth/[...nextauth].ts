@@ -6,10 +6,18 @@ export default NextAuth({
     Providers.GitHub({
       clientId: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
+      scope: "repo"
     }),
   ],
+  secret: process.env.AUTH_SECRET,
+  jwt: {
+    secret: process.env.JWT_SECRET,
+  },
 
   callbacks: {
+    async redirect(url, baseUrl) {
+      return "/dashboard";
+    },
     /**
      * @param  {object}  token     Decrypted JSON Web Token
      * @param  {object}  user      User object      (only available on sign in)
@@ -26,10 +34,8 @@ export default NextAuth({
     },
     async session(session, token) {
       // Add property to session, like an access_token from a provider.
-      session.accessToken = token.accessToken
-      return session
-    }
+      session.accessToken = token.accessToken;
+      return session;
+    },
   },
-
-
 });

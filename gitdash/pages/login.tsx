@@ -35,7 +35,7 @@ export default function Home() {
                 <Button
                   colorScheme="teal"
                   leftIcon={<FaGithub />}
-                  onClick={() => signIn("github", { callbackUrl: 'http://localhost:3000/dashboard' })}
+                  onClick={() => signIn("github")}
                 >
                   Sign in with GitHub
                 </Button>
