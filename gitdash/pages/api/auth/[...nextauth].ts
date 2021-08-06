@@ -6,7 +6,7 @@ export default NextAuth({
     Providers.GitHub({
       clientId: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
-      scope: "repo"
+      scope: "repo",
     }),
   ],
   secret: process.env.AUTH_SECRET,
@@ -15,9 +15,6 @@ export default NextAuth({
   },
 
   callbacks: {
-    async redirect(url, baseUrl) {
-      return "/dashboard";
-    },
     /**
      * @param  {object}  token     Decrypted JSON Web Token
      * @param  {object}  user      User object      (only available on sign in)

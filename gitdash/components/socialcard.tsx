@@ -16,7 +16,6 @@ export default function SocialCard({
   session: any;
   githubData: any;
 }) {
-  console.log(session);
   return (
     <Center py={6}>
       <Box
