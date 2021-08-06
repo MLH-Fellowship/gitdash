@@ -19,7 +19,7 @@ export default function Home() {
       <Head>
         <title>Login</title>
       </Head>
-      <Sidebar pageTitle="Login">
+      <Sidebar pageTitle="Login" githubData={undefined}>
         <Box
           bg={useColorModeValue("gray.50", "inherit")}
           minH="100vh"

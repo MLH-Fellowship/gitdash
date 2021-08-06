@@ -11,7 +11,7 @@ export default function HomePage() {
       <Head>
         <title>Git Dash</title>
       </Head>
-      <Sidebar pageTitle="Home">
+      <Sidebar pageTitle="Home" githubData={undefined}>
         <Hero />
         <Features />
         <Team />
