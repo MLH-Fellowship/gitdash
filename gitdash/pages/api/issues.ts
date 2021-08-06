@@ -28,6 +28,7 @@ export default async function GetIssueDetails(
 
   // Iterate through the repo names and collect the pull data
   const allAssignedIssues = [];
+
   for (let repo of repos.data) {
     if (repo.owner) {
       // Get issues data

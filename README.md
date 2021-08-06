@@ -51,6 +51,9 @@ On creating the OAuth app on GitHub, you need to set the `GITHUB_ID` in the `.en
 
 ![GitHub OAuth App Creds](https://i.imgur.com/NurdT2w.png)
 
+After adding the GITHUB_ID and GITHUB_SECRET to your `.env` create two more values called `AUTH_SECRET` and `JWT_SECRET` which you can generate yourself as any 
+string which will be used to authenticate with Github.
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
