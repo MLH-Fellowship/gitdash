@@ -15,14 +15,19 @@ import Sidebar from "../components/sidebar";
 import useSWR from "swr";
 
 async function fetcher(...arg: any) {
-  const res = await fetch(arg);
-
-  return res.json();
+  try {
+    const res = await fetch(arg);
+    return res.json();
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 export default function Dashboard() {
   const { data: githubData } = useSWR("/api/github", fetcher);
+  const { data: issueData } = useSWR("/api/issues", fetcher);
 
+  console.log(issueData);
   return (
     <>
       <Head>
@@ -66,6 +71,11 @@ export default function Dashboard() {
             <HStack>
               <VStack>
                 <Text fontSize="xl">Issues</Text>
+                {issueData ? (
+                  <Text>{issueData?.output[0].body}</Text>
+                ) : (
+                  <Spinner size="xl" />
+                )}
               </VStack>
               <VStack>
                 <Text fontSize="xl">Pull Requests</Text>
