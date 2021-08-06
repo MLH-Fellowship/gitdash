@@ -34,6 +34,8 @@ import { ReactText } from "react";
 import { signOut, useSession } from "next-auth/client";
 import NextLink from "next/link";
 
+import SocialCard from "../components/socialcard";
+
 interface LinkItemProps {
   name: string;
   icon: IconType;
@@ -53,9 +55,11 @@ const LinkItemsNotLoggedIn: Array<LinkItemProps> = [
 export default function Sidebar({
   children,
   pageTitle,
+  githubData,
 }: {
   children: ReactNode;
   pageTitle: string;
+  githubData: any;
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [session, loading] = useSession();
@@ -65,6 +69,7 @@ export default function Sidebar({
         onClose={() => onClose}
         display={{ base: "none", md: "block" }}
         session={session}
+        githubData={githubData}
       />
       <Drawer
         autoFocus={false}
@@ -76,7 +81,11 @@ export default function Sidebar({
         size="full"
       >
         <DrawerContent>
-          <SidebarContent onClose={onClose} session={session} />
+          <SidebarContent
+            onClose={onClose}
+            session={session}
+            githubData={githubData}
+          />
         </DrawerContent>
       </Drawer>
       <MobileNav onOpen={onOpen} pageTitle={pageTitle} session={session} />
@@ -90,16 +99,22 @@ export default function Sidebar({
 interface SidebarProps extends BoxProps {
   onClose: () => void;
   session: any;
+  githubData: any;
 }
 
-const SidebarContent = ({ onClose, session, ...rest }: SidebarProps) => {
+const SidebarContent = ({
+  onClose,
+  session,
+  githubData,
+  ...rest
+}: SidebarProps) => {
   return (
     <Box
       transition="3s ease"
       bg={useColorModeValue("white", "gray.900")}
       borderRight="1px"
       borderRightColor={useColorModeValue("gray.200", "gray.700")}
-      w={{ base: "full", md: 60 }}
+      w={{ base: "full", md: 80 }}
       pos="fixed"
       h="full"
       {...rest}
@@ -110,6 +125,13 @@ const SidebarContent = ({ onClose, session, ...rest }: SidebarProps) => {
         </Text>
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
+
+      {githubData ? (
+        <SocialCard session={session} githubData={githubData} />
+      ) : (
+        <></>
+      )}
+
       {session
         ? LinkItems.map((links) => (
             <NavItem key={links.name} icon={links.icon} link={links.link}>
@@ -170,7 +192,7 @@ interface MobileProps extends FlexProps {
 const MobileNav = ({ onOpen, pageTitle, session, ...rest }: MobileProps) => {
   return (
     <Flex
-      ml={{ base: 0, md: 60 }}
+      ml={{ base: 0, md: 80 }}
       px={{ base: 4, md: 4 }}
       height="20"
       alignItems="center"
