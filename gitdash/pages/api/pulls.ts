@@ -24,7 +24,6 @@ export default async function GetPullDetails(
   // Get all repos
   const repos = await octokit.request("GET /user/repos");
 
-
   // Iterate through the repo names and collect the pull data
   const allPullData = [];
   for (let repo of repos.data) {

@@ -3,6 +3,7 @@ import Hero from "../components/hero";
 import Features from "../components/features";
 import Footer from "../components/footer";
 import Team from "../components/team";
+import Sidebar from "../components/sidebar";
 
 export default function HomePage() {
   return (
@@ -10,10 +11,12 @@ export default function HomePage() {
       <Head>
         <title>Git Dash</title>
       </Head>
-      <Hero />
-      <Features />
-      <Team />
-      <Footer />
+      <Sidebar pageTitle="Home" githubData={undefined}>
+        <Hero />
+        <Features />
+        <Team />
+        <Footer />
+      </Sidebar>
     </>
   );
 }

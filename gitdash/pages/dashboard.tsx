@@ -1,16 +1,19 @@
 import {
   Box,
-  Heading,
   Flex,
   Stat,
   StatLabel,
   StatNumber,
   Text,
+  VStack,
+  HStack,
+  Center,
+  Spinner,
 } from "@chakra-ui/react";
+import Head from "next/head";
+import Sidebar from "../components/sidebar";
 import useSWR from "swr";
-import { useEffect, useState } from "react";
 
-//
 async function fetcher(...arg: any) {
   const res = await fetch(arg);
 
@@ -18,42 +21,65 @@ async function fetcher(...arg: any) {
 }
 
 export default function Dashboard() {
-  const {data} = useSWR('/api/github', fetcher)
+  const { data: githubData } = useSWR("/api/github", fetcher);
 
   return (
     <>
-      <Box mt={5}>
-        <Heading as="h1" textAlign="center" size="2xl" mb={5}>
-          Your Dashboard
-        </Heading>
-        <Flex justify="center">
-          {/* Add boxes for each display */}
-          <Box w="300px" p={5} ml={5} mb={3} borderWidth="1px" rounded="lg">
-            <Stat>
-              <StatLabel>
-                <Text fontSize="xl">Github Stars</Text>
-              </StatLabel>
-              <StatNumber>{data ? data.stars : "Loading..."}</StatNumber>
-            </Stat>
-          </Box>
-          <Box w="300px" p={5} ml={5} mb={3} borderWidth="1px" rounded="lg">
-            <Stat>
-              <StatLabel>
-                <Text fontSize="xl">Github Followers</Text>
-              </StatLabel>
-              <StatNumber>{data ? data.followers : "Loading..."}</StatNumber>
-            </Stat>
-          </Box>
-          <Box w="300px" p={5} ml={5} mb={3} borderWidth="1px" rounded="lg">
-            <Stat>
-              <StatLabel>
-                <Text fontSize="xl">Github Repos Starred</Text>
-              </StatLabel>
-              <StatNumber>{data ? data.starred : "Loading..."}</StatNumber>
-            </Stat>
-          </Box>
-        </Flex>
-      </Box>
+      <Head>
+        <title>Dashboard</title>
+      </Head>
+      {githubData ? (
+        <Sidebar pageTitle="Dashboard" githubData={githubData}>
+          <Flex justify="center" wrap="wrap" mt={5}>
+            <Box w="300px" p={5} ml={5} mb={3} borderWidth="1px" rounded="lg">
+              <Stat>
+                <StatLabel>
+                  <Text fontSize="xl">Github Stars</Text>
+                </StatLabel>
+                <StatNumber>
+                  {githubData ? githubData.stars : "Loading..."}
+                </StatNumber>
+              </Stat>
+            </Box>
+            <Box w="300px" p={5} ml={5} mb={3} borderWidth="1px" rounded="lg">
+              <Stat>
+                <StatLabel>
+                  <Text fontSize="xl">Github Followers</Text>
+                </StatLabel>
+                <StatNumber>
+                  {githubData ? githubData.followers : "Loading..."}
+                </StatNumber>
+              </Stat>
+            </Box>
+            <Box w="300px" p={5} ml={5} mb={3} borderWidth="1px" rounded="lg">
+              <Stat>
+                <StatLabel>
+                  <Text fontSize="xl">Github Repos Starred</Text>
+                </StatLabel>
+                <StatNumber>
+                  {githubData ? githubData.starred : "Loading..."}
+                </StatNumber>
+              </Stat>
+            </Box>
+          </Flex>
+          <Flex justify="center" wrap="wrap" mt={5}>
+            <HStack>
+              <VStack>
+                <Text fontSize="xl">Issues</Text>
+              </VStack>
+              <VStack>
+                <Text fontSize="xl">Pull Requests</Text>
+              </VStack>
+            </HStack>
+          </Flex>
+        </Sidebar>
+      ) : (
+        <>
+          <Center mt={5}>
+            <Spinner size="xl" />
+          </Center>
+        </>
+      )}
     </>
   );
 }
