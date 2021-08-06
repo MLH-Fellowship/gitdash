@@ -26,6 +26,7 @@ async function fetcher(...arg: any) {
 export default function Dashboard() {
   const { data: githubData } = useSWR("/api/github", fetcher);
   const { data: issueData } = useSWR("/api/issues", fetcher);
+  const { data: prData } = useSWR("/api/pulls", fetcher);
 
   console.log(issueData);
 
@@ -36,7 +37,7 @@ export default function Dashboard() {
       </Head>
       {githubData ? (
         <Sidebar pageTitle="Dashboard" githubData={githubData}>
-          {/* <Flex justify="center" wrap="wrap" mt={5}>
+          <Flex justify="center" wrap="wrap" mt={5}>
             <Box w="300px" p={5} ml={20} mb={3} borderWidth="1px" rounded="lg">
               <Stat>
                 <StatLabel>
@@ -67,7 +68,7 @@ export default function Dashboard() {
                 </StatNumber>
               </Stat>
             </Box>
-          </Flex> */}
+          </Flex>
           <Flex justify="center" wrap="wrap" mt={5}>
             <Stack
               direction={{ base: "column", xl: "row" }}
@@ -78,14 +79,16 @@ export default function Dashboard() {
                   Issues
                 </Text>
                 {issueData ? (
-                  issueData.output.map((issue: any) => (
-                    <IssueCard
-                      issueName={issue.title}
-                      issueBody={issue.body}
-                      issueLabels={issue.labels}
-                      issueRepo={issue.html_url}
-                    />
-                  ))
+                  issueData.output
+                    .slice(0, 3)
+                    .map((issue: any) => (
+                      <IssueCard
+                        issueName={issue.title}
+                        issueBody={issue.body}
+                        issueLabels={issue.labels}
+                        issueRepo={issue.html_url}
+                      />
+                    ))
                 ) : (
                   <Spinner size="xl" />
                 )}
@@ -94,15 +97,17 @@ export default function Dashboard() {
                 <Text fontSize="xl" fontWeight="800">
                   Pull Requests
                 </Text>
-                {issueData ? (
-                  issueData.output.map((issue: any) => (
-                    <IssueCard
-                      issueName={issue.title}
-                      issueBody={issue.body}
-                      issueLabels={issue.labels}
-                      issueRepo={issue.html_url}
-                    />
-                  ))
+                {prData ? (
+                  prData.pulls
+                    .slice(0, 3)
+                    .map((pr: any) => (
+                      <IssueCard
+                        issueName={pr.title}
+                        issueBody={pr.body}
+                        issueLabels={pr.labels}
+                        issueRepo={pr.html_url}
+                      />
+                    ))
                 ) : (
                   <Spinner size="xl" />
                 )}
