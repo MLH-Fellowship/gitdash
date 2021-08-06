@@ -51,7 +51,7 @@ export default async function GetIssueDetails(
   console.log(allAssignedIssues);
 
   return res.status(200).json({
-    output: allAssignedIssues,
+    output: allAssignedIssues.reverse(),
     count: allAssignedIssues.length,
   });
 }

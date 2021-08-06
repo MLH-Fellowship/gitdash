@@ -6,20 +6,28 @@ import {
   StatNumber,
   Text,
   VStack,
+  HStack,
 } from "@chakra-ui/react";
-import useSWR from "swr";
 import Head from "next/head";
 import Sidebar from "../components/sidebar";
-
-async function fetcher(...arg: any) {
-  const res = await fetch(arg);
-
-  return res.json();
-}
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function Dashboard() {
-  const { data: githubData } = useSWR("/api/github", fetcher);
-  const { data: issueData } = useSWR("/api/issues", fetcher);
+  const [issueData, setIssueData] = useState(null);
+  const [githubData, setGithubData] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get("/api/issues")
+      .then((res) => res.data)
+      .then((data) => setIssueData(data));
+
+    axios
+      .get("/api/github")
+      .then((res) => res.data)
+      .then((data) => setGithubData(data));
+  }, []);
 
   return (
     <>
@@ -60,7 +68,28 @@ export default function Dashboard() {
           </Box>
         </Flex>
         <Flex justify="center" wrap="wrap" mt={5}>
-          {/* <Text>{issueData}</Text> */}
+          <HStack>
+            <VStack>
+              <Text fontSize="xl">Issues</Text>
+              {/* {issueData ? (
+                issueData.output.map((issue: any) => {
+                  <Box>
+                    <Text fontSize="xl">{issue.html_url}</Text>
+                    <Text fontSize="xl">{issue.title}</Text>
+                    <Text fontSize="xl">{issue.body}</Text>
+                  </Box>;
+                })
+              ) : (
+                <></>
+              )} */}
+              <Text fontSize="xl">{issueData.output[0].html_url}</Text>
+              <Text fontSize="xl">{issueData.output[0].title}</Text>
+              <Text fontSize="xl">{issueData.output[0].body}</Text>
+            </VStack>
+            <VStack>
+              <Text fontSize="xl">Pull Requests</Text>
+            </VStack>
+          </HStack>
         </Flex>
       </Sidebar>
     </>
