@@ -27,7 +27,7 @@ export default async function GetDetails(
 
   // Get user data
   const userData = await octokit.request("GET /user");
-  const username = userData.data.login
+  const username = userData.data.login; 
 
   // Get all repos
   const repos = await octokit.request("GET /user/repos");
