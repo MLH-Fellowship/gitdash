@@ -13,11 +13,24 @@ As software developers, we have often started new projects and then we forgot ab
 
 ![homepage](images/homepage.PNG?raw=True)
 
-## Documentation and other details
+## 🎯 Features 
+
+- Get all the repos, issues and pull requests you are working on. 
+- Star the repositories that you are working on immediately to get their information ASAP 
+- Create your profile with the details from your GitHub account and stand out from the crowd. 
+- Get notifications of the what you are working on, when you are working on it.
+
+#### Dashboard Preview 
+
+In this section, you can see the dashboard of your profile and the details that would appear as soon as you log in. This is for quick access to the things that are most important to you. 
+
+![dashboard](images/dashboard.png?raw=True)
+
+## 📖 Documentation Details
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+## ⚡ Installation
 
 First install the dependencies for the project:
 
@@ -32,24 +45,26 @@ Then, run the development server:
 npm run dev
 ```
 
-### Github Authentication
+### GitHub Authentication
 
 To get the GitHub authentication to work, you need to create a `.env` file in the `gitdash` directory with the following content
 
-```
+```bash
 GITHUB_ID=<your_github_client_id>
 GITHUB_SECRET=<your_github_client_secret>
+AUTH_SECRET=<your_auth_secret>
+JWT_SECRET=<your_auth_secret>
 ```
 
 Follow the guide [here](https://docs.github.com/en/developers/apps/building-oauth-apps/creating-an-oauth-app) to create a new GitHub OAuth app.
 
 The details should look something like this:
 
-![OAuth App Details](https://i.imgur.com/p2yQzuT.png)
+![OAuth App Details](images/githubAuth.png?raw=True)
 
 On creating the OAuth app on GitHub, you need to set the `GITHUB_ID` in the `.env` file as the Client ID you see in the GitHub OAuth App in your account, and the `GITHUB_SECRET` to the Client Secret that you generate. Refer to the image below for more details
 
-![GitHub OAuth App Creds](https://i.imgur.com/NurdT2w.png)
+![GitHub OAuth App Creds](images/githubClient.png?raw=True)
 
 After adding the GITHUB_ID and GITHUB_SECRET to your `.env` create two more values called `AUTH_SECRET` and `JWT_SECRET` which you can generate yourself as any 
 string which will be used to authenticate with Github.
@@ -71,15 +86,23 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+## :rocket: Deploy on Vercel
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
+## :wrench: Tech Stack
+
+- Next.js 
+- Cockroach DB 
+- TypeScript
+- Chakra UI
+- Octokit Core.js
+<!-- - Linode -->
 
 
-## Useful commands
+<!-- ## Useful commands
 
 Switch branches:
 ```
@@ -96,7 +119,7 @@ I'd recommend using the GitHub CLI for reviewing Pull Requests, making Pull Requ
 Download it with Homebrew:
 ```
 brew install gh
-```
+``` -->
 
 ## 👨‍💻 Contributors 
 
