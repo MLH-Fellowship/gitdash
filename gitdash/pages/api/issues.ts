@@ -23,36 +23,23 @@ export default async function GetIssueDetails(
   // Get user data
   const userData = await octokit.request("GET /user");
 
-  // Get all repos
-  const repos = await octokit.request("GET /user/repos");
+  // Get all issues
+  const issues = await octokit.request("GET /issues");
 
   // Iterate through the repo names and collect the pull data
-  const allAssignedIssues = [];
+  const filterIssues = [];
 
-  for (let repo of repos.data) {
-    if (repo.owner) {
-      // Get issues data
-      const assignedIssues = await octokit.request(
-        `GET /repos/{owner}/{repo}/issues?sort=updated`,
-        {
-          owner: repo.owner.login,
-          repo: repo.name,
-        }
-      );
-
-      // Iterate through the pullData
-      for (let issue of assignedIssues.data) {
-        if (!issue.pull_request) {
-          allAssignedIssues.push(issue);
-        }
-      }
+  for (let issue of issues.data) {
+    if (!issue.pull_request) {
+      // Issues can be pull requests but pull requests cannot be issues.
+      // Thus I am filtering the return data if the pull_request is populated
+      // Then it is a pull request and not an issue.
+      filterIssues.push(issue);
     }
   }
-  console.log("Actual data");
-  console.log(allAssignedIssues);
 
   return res.status(200).json({
-    output: allAssignedIssues.reverse(),
-    count: allAssignedIssues.length,
+    output: filterIssues.reverse(),
+    count: filterIssues.length,
   });
 }
