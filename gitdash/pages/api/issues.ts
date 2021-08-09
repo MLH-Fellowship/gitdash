@@ -8,7 +8,10 @@ export default async function GetIssueDetails(
       (): any;
       new (): any;
       json: {
-        (arg0: { output: any; count: any }): any;
+        (arg0: { 
+          output: any; 
+          count: any
+        }): any;
         new (): any;
       };
     };
@@ -24,7 +27,7 @@ export default async function GetIssueDetails(
   const userData = await octokit.request("GET /user");
 
   // Get all issues
-  const issues = await octokit.request("GET /issues");
+  const issues = await octokit.request("GET /issues?per_page=100");
 
   // Iterate through the repo names and collect the pull data
   const filterIssues = [];
