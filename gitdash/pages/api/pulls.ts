@@ -21,34 +21,23 @@ export default async function GetPullDetails(
     auth: session?.accessToken,
   });
 
-  // Get all repos
-  const repos = await octokit.request("GET /user/repos");
+  const pulls = await octokit.request("GET /issues");
 
   // Iterate through the repo names and collect the pull data
-  const allPullData = [];
-  for (let repo of repos.data) {
-    if (repo.owner) {
-      // Get pull request data
-      const pullData = await octokit.request(
-        `GET /repos/{owner}/{repo}/pulls`,
-        {
-          owner: repo.owner.login,
-          repo: repo.name,
-        }
-      );
+  const filterPulls = [];
 
-      // Iterate through the pullData
-      for (let pull of pullData.data) {
-        allPullData.push(pull);
-      }
+  for (let pull of pulls.data) {
+    if (pull.pull_request) {
+      // Issues can be pull requests but pull requests cannot be issues.
+      // Thus I am filtering the return data if the pull_request is populated
+      // Then it is a pull request and not an issue.
+      filterPulls.push(pull);
     }
   }
-  console.log("Actual data");
-  console.log(allPullData);
 
   // Return the counts
   return res.status(200).json({
-    pulls: allPullData,
-    count: allPullData.length,
+    pulls: filterPulls,
+    count: filterPulls.length,
   });
 }
