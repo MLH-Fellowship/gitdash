@@ -22,6 +22,9 @@ export default NextAuth({
      * @param  {object}  profile   Provider profile (only available on sign in)
      * @return {object}            JSON Web Token that will be saved
      */
+    async redirect(url, baseUrl) {
+      return "/";
+    },
     async jwt(token, user, account, profile, isNewUser) {
       // Add access_token to the token right after signin
       if (account?.accessToken) {

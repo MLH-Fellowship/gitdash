@@ -248,7 +248,7 @@ const MobileNav = ({ onOpen, pageTitle, session, ...rest }: MobileProps) => {
             >
               <MenuItem
                 onClick={() =>
-                  signOut({ callbackUrl: "http://localhost:3000/login" })
+                  signOut()
                 }
               >
                 Sign out
