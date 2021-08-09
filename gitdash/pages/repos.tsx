@@ -1,5 +1,6 @@
 import Sidebar from "../components/sidebar";
 import useSWR from "swr";
+import { Heading, Spinner } from "@chakra-ui/react";
 
 async function fetcher(...arg: any) {
   try {
@@ -19,6 +20,13 @@ export default function Repos() {
   return (
     <Sidebar pageTitle="Repositories" githubData={githubData}>
       <h1>This is the repositories page</h1>
+      {repoData ? (
+        repoData?.repoNames.map((repoName: any) => (
+          <Heading>{repoName}</Heading>
+        ))
+      ) : (
+        <Spinner size="xl"></Spinner>
+      )}
     </Sidebar>
   );
 }
