@@ -13,7 +13,7 @@ async function fetcher(...arg: any) {
 
 export default function Repos() {
   const { data: githubData } = useSWR("/api/github", fetcher);
-  const { data: repoData } = useSWR("/api/all_repos", fetcher);
+  const { data: repoData } = useSWR("/api/repo_names", fetcher);
 
   console.log(repoData);
 
