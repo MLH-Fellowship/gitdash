@@ -39,6 +39,8 @@ To get the GitHub authentication to work, you need to create a `.env` file in th
 ```
 GITHUB_ID=<your_github_client_id>
 GITHUB_SECRET=<your_github_client_secret>
+AUTH_SECRET=<your_auth_secret>
+JWT_SECRET=<your_auth_secret>
 ```
 
 Follow the guide [here](https://docs.github.com/en/developers/apps/building-oauth-apps/creating-an-oauth-app) to create a new GitHub OAuth app.
