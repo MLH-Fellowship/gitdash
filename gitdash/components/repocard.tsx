@@ -1,4 +1,5 @@
-import { Box, Heading } from "@chakra-ui/react";
+import { Box, Heading, Flex, Icon } from "@chakra-ui/react";
+import { GoRepo, GoStar } from "react-icons/go";
 
 export default function RepoCard({
   repoName,
@@ -14,8 +15,17 @@ export default function RepoCard({
   numStars: number;
 }) {
   return (
-    <Box maxW="sm" borderRadius="lg" backgroundColor="gray.800" m={5}>
-      <Heading>{repoName}</Heading>
+    <Box>
+      <Flex borderRadius="lg" backgroundColor="gray.800" m={5}>
+        <Box mt="1" p="4">
+          <Icon as={GoRepo}></Icon>
+        </Box>
+        <Box mt="1" pt="4">
+          <Heading fontWeight="800" size="md">
+            {repoName}
+          </Heading>
+        </Box>
+      </Flex>
     </Box>
   );
 }
