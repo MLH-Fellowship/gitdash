@@ -1,17 +1,21 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Heading } from "@chakra-ui/react";
 
 export default function RepoCard({
   repoName,
+  repoOwner,
   description,
   primaryLanguage,
   numStars,
-  numForks,
 }: {
   repoName: string;
+  repoOwner: string;
   description: string;
   primaryLanguage: string;
   numStars: number;
-  numForks: number;
 }) {
-  return <></>;
+  return (
+    <Box maxW="sm" borderRadius="lg" backgroundColor="gray.800" m={5}>
+      <Heading>{repoName}</Heading>
+    </Box>
+  );
 }

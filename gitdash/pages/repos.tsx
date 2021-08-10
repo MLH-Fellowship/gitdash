@@ -1,6 +1,7 @@
 import Sidebar from "../components/sidebar";
 import useSWR from "swr";
 import { Heading, Spinner } from "@chakra-ui/react";
+import RepoCard from "../components/repocard";
 
 async function fetcher(...arg: any) {
   try {
@@ -22,7 +23,15 @@ export default function Repos() {
       <h1>This is the repositories page</h1>
       {repoData ? (
         repoData?.allRepoData.map((repo: any) => (
-          <Heading key={repo.id}>{repo.repoName}</Heading>
+          // <Heading key={repo.id}>{repo.repoName}</Heading>
+          <RepoCard
+            key={repo.id}
+            repoName={repo.repoName}
+            repoOwner={repo.owner}
+            description={repo.description}
+            primaryLanguage={repo.primaryLanguage}
+            numStars={repo.numStars}
+          />
         ))
       ) : (
         <Spinner size="xl"></Spinner>
