@@ -28,9 +28,6 @@ export default async function GetDetails(
 
   console.log(repos.data[2]);
 
-  // List of repos
-  const repo_names = repos.data.map((repo: { name: any }) => repo.name);
-
   const final_output = [];
   let repo_information = {};
 
@@ -42,7 +39,6 @@ export default async function GetDetails(
 
     // Check if the repo is a fork
     if (repos.data[i].fork) {
-      console.log("This is a fork");
       continue;
     }
 
@@ -62,7 +58,7 @@ export default async function GetDetails(
     repo_information = {
       repoName: repo,
       owner: username,
-      description: repos.data.description,
+      description: repos.data[i].description,
       primaryLanguage: primary_language,
       stargazersCount: repos.data[i].stargazers_count,
       id: repos.data[i].id,

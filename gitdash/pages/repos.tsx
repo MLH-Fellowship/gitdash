@@ -1,6 +1,6 @@
 import Sidebar from "../components/sidebar";
 import useSWR from "swr";
-import { Heading, Spinner } from "@chakra-ui/react";
+import { Center, Heading, Spinner } from "@chakra-ui/react";
 import RepoCard from "../components/repocard";
 import Head from "next/head";
 
@@ -17,8 +17,13 @@ export default function Repos() {
   const { data: githubData } = useSWR("/api/github", fetcher);
   const { data: repoData } = useSWR("/api/repos", fetcher);
 
+  console.log(repoData);
+
   return (
     <>
+      <Head>
+        <title>Repositories</title>
+      </Head>
       <Sidebar pageTitle="Repositories" githubData={githubData}>
         {repoData ? (
           repoData?.allRepoData.map((repo: any) => (
@@ -28,11 +33,13 @@ export default function Repos() {
               repoOwner={repo.owner}
               description={repo.description}
               primaryLanguage={repo.primaryLanguage}
-              numStars={repo.numStars}
+              numStars={repo.stargazersCount}
             />
           ))
         ) : (
-          <Spinner size="xl"></Spinner>
+          <Center>
+            <Spinner size="xl"></Spinner>
+          </Center>
         )}
       </Sidebar>
     </>
