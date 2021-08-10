@@ -27,6 +27,7 @@ export default function IssueCard({
   issueLabels: any;
   issueRepo: any;
 }) {
+  if(!issueBody) issueBody = "No body";
   return (
     <Center py={6}>
       <Box
