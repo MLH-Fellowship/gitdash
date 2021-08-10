@@ -13,7 +13,7 @@ async function fetcher(...arg: any) {
 
 export default function Repos() {
   const { data: githubData } = useSWR("/api/github", fetcher);
-  const { data: repoData } = useSWR("/api/repo_names", fetcher);
+  const { data: repoData } = useSWR("/api/repos", fetcher);
 
   console.log(repoData);
 
@@ -21,8 +21,8 @@ export default function Repos() {
     <Sidebar pageTitle="Repositories" githubData={githubData}>
       <h1>This is the repositories page</h1>
       {repoData ? (
-        repoData?.repoNames.map((repoName: any) => (
-          <Heading>{repoName}</Heading>
+        repoData?.allRepoData.map((repo: any) => (
+          <Heading key={repo.id}>{repo.repoName}</Heading>
         ))
       ) : (
         <Spinner size="xl"></Spinner>
