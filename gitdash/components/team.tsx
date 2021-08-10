@@ -89,7 +89,7 @@ const TeamAvatar = ({
 
 export default function TeamSection() {
   return (
-    <Box bg={useColorModeValue("gray.100", "gray.700")}>
+    <Box bg={useColorModeValue("gray.100", "gray.900")}>
       <Container maxW={"7xl"} py={16} as={Stack} spacing={12}>
         <Stack spacing={0} align={"center"}>
           <Heading>The Team</Heading>

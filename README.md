@@ -5,7 +5,7 @@
 [![forthebadge](https://forthebadge.com/images/badges/made-with-javascript.svg)](https://forthebadge.com)
 # GitDash 
 
-> Maintain peak productivity by knowing exactly what you need to work on when you need to work on it. 
+> Maintain peak productivity by knowing exactly what you need to work on and when you need to work on it. 
 
 ## Introduction
 

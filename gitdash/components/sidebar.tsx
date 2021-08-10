@@ -24,10 +24,9 @@ import {
   FiHome,
   FiMenu,
   FiChevronDown,
-  FiAlertTriangle,
-  FiGitPullRequest,
   FiLogIn,
 } from "react-icons/fi";
+import { GoRepo, GoStar } from 'react-icons/go'
 import { IconType } from "react-icons";
 import { ReactText } from "react";
 
@@ -43,8 +42,8 @@ interface LinkItemProps {
 }
 const LinkItems: Array<LinkItemProps> = [
   { name: "Dashboard", icon: FiHome, link: "/dashboard" },
-  { name: "Issues", icon: FiAlertTriangle, link: "/issues" },
-  { name: "Pull Requests", icon: FiGitPullRequest, link: "/pullrequests" },
+  { name: "Repositories", icon: GoRepo, link: "/repos" },
+  { name: "Favourites", icon: GoStar, link: "/favourites" },
 ];
 
 const LinkItemsNotLoggedIn: Array<LinkItemProps> = [
@@ -114,7 +113,7 @@ const SidebarContent = ({
       bg={useColorModeValue("white", "gray.900")}
       borderRight="1px"
       borderRightColor={useColorModeValue("gray.200", "gray.700")}
-      w={{ base: "full", md: 80 }}
+      w={{ base: "full", md: 60 }}
       pos="fixed"
       h="full"
       {...rest}
@@ -192,7 +191,7 @@ interface MobileProps extends FlexProps {
 const MobileNav = ({ onOpen, pageTitle, session, ...rest }: MobileProps) => {
   return (
     <Flex
-      ml={{ base: 0, md: 80 }}
+      ml={{ base: 0, md: 60 }}
       px={{ base: 4, md: 4 }}
       height="20"
       alignItems="center"
@@ -248,7 +247,7 @@ const MobileNav = ({ onOpen, pageTitle, session, ...rest }: MobileProps) => {
             >
               <MenuItem
                 onClick={() =>
-                  signOut()
+                  signOut({ callbackUrl: "http://localhost:3000/login" })
                 }
               >
                 Sign out
