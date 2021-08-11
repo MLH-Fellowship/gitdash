@@ -27,6 +27,10 @@ namespace API.Controllers
         {
             var favouriteSpec = new FavouriteSpecification(id);
             var favourite = await unitofWork.Repository<Favourite>().GetEntityWithSpec(favouriteSpec);
+
+            if (favourite == null)
+                return BadRequest(new ApiResponse(400, "Does not have any favourites!"));
+
             return Ok(mapper.Map<Favourite, FavouriteToReturnDto>(favourite));
         }
 
