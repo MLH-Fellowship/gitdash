@@ -81,7 +81,7 @@ namespace API.Controllers
                 unitofWork.Repository<Repository>().Add(repoToAdd);
                 await unitofWork.Complete();
 
-                return Ok(favouriteToAdd);
+                return Ok(mapper.Map<Favourite, FavouriteToReturnDto>(favouriteToAdd));
             }
 
             if (favourite.Repositories.Any(x => x.RepoId == favouriteToCreateDto.RepoId))
