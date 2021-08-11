@@ -81,6 +81,8 @@ namespace API.Controllers
                 unitofWork.Repository<Repository>().Add(repoToAdd);
                 await unitofWork.Complete();
 
+                favouriteToAdd.Repositories.Add(repoToAdd);
+
                 return Ok(mapper.Map<Favourite, FavouriteToReturnDto>(favouriteToAdd));
             }
 
