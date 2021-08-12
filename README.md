@@ -66,7 +66,7 @@ dotnet run
 
 ### GitHub Authentication
 
-To get the GitHub authentication to work, you need to create a `.env` file in the `gitdash` directory with the following content
+To get the GitHub authentication to work, you need to create a `.env` file in the `client` directory with the following content
 
 ```bash
 GITHUB_ID=<your_github_client_id>
