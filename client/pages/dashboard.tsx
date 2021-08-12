@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import Head from "next/head";
 import Sidebar from "../components/sidebar";
-import IssueCard from "../components/card";
+import IssueCard from "../components/issuecard";
 import useSWR from "swr";
 
 async function fetcher(...arg: any) {
@@ -29,6 +29,7 @@ export default function Dashboard() {
   const { data: prData } = useSWR("/api/pulls", fetcher);
 
   console.log(issueData);
+  console.log(prData);
 
   return (
     <>
@@ -37,38 +38,6 @@ export default function Dashboard() {
       </Head>
       {githubData ? (
         <Sidebar pageTitle="Dashboard" githubData={githubData}>
-          <Flex justify="center" wrap="wrap" mt={5}>
-            <Box w="300px" p={5} ml={20} mb={3} borderWidth="1px" rounded="lg">
-              <Stat>
-                <StatLabel>
-                  <Text fontSize="xl">Github Stars</Text>
-                </StatLabel>
-                <StatNumber>
-                  {githubData ? githubData.stars : "Loading..."}
-                </StatNumber>
-              </Stat>
-            </Box>
-            <Box w="300px" p={5} ml={5} mb={3} borderWidth="1px" rounded="lg">
-              <Stat>
-                <StatLabel>
-                  <Text fontSize="xl">Github Followers</Text>
-                </StatLabel>
-                <StatNumber>
-                  {githubData ? githubData.followers : "Loading..."}
-                </StatNumber>
-              </Stat>
-            </Box>
-            <Box w="300px" p={5} ml={5} mb={3} borderWidth="1px" rounded="lg">
-              <Stat>
-                <StatLabel>
-                  <Text fontSize="xl">Github Repos Starred</Text>
-                </StatLabel>
-                <StatNumber>
-                  {githubData ? githubData.starred : "Loading..."}
-                </StatNumber>
-              </Stat>
-            </Box>
-          </Flex>
           <Flex justify="center" wrap="wrap" mt={5}>
             <Stack
               direction={{ base: "column", xl: "row" }}
@@ -87,6 +56,9 @@ export default function Dashboard() {
                         issueBody={issue.body}
                         issueLabels={issue.labels}
                         issueRepo={issue.html_url}
+                        issueNumber={issue.number}
+                        issueAvatar={issue.user.avatar_url}
+                        issueUser={issue.user.login}
                         key={issue.id}
                       />
                     ))
@@ -107,6 +79,9 @@ export default function Dashboard() {
                         issueBody={pr.body}
                         issueLabels={pr.labels}
                         issueRepo={pr.html_url}
+                        issueAvatar={pr.user.avatar_url}
+                        issueNumber={pr.number}
+                        issueUser={pr.user.login}
                         key={pr.id}
                       />
                     ))

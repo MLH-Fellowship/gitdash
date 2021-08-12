@@ -20,13 +20,8 @@ import {
   MenuItem,
   MenuList,
 } from "@chakra-ui/react";
-import {
-  FiHome,
-  FiMenu,
-  FiChevronDown,
-  FiLogIn,
-} from "react-icons/fi";
-import { GoRepo, GoStar } from 'react-icons/go'
+import { FiHome, FiMenu, FiChevronDown, FiLogIn } from "react-icons/fi";
+import { GoRepo, GoStar } from "react-icons/go";
 import { IconType } from "react-icons";
 import { ReactText } from "react";
 
@@ -209,16 +204,9 @@ const MobileNav = ({ onOpen, pageTitle, session, ...rest }: MobileProps) => {
         icon={<FiMenu />}
       />
 
-      <Text
-        display={{ base: "flex" }}
-        fontSize="2xl"
-        fontFamily="monospace"
-        fontWeight="bold"
-      >
+      <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
         {pageTitle}
       </Text>
-
-      <Spacer />
 
       <HStack spacing={{ base: "0", md: "6" }}>
         <Flex alignItems={"center"}>
