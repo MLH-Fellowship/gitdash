@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import Head from "next/head";
 import Sidebar from "../components/sidebar";
-import IssueCard from "../components/card";
+import IssueCard from "../components/issuecard";
 import useSWR from "swr";
 
 async function fetcher(...arg: any) {
