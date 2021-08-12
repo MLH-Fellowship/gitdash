@@ -35,7 +35,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 First install the dependencies for the project:
 
 ```bash
-cd gitdash
+cd client
 npm install
 ```
 
