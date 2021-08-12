@@ -170,3 +170,26 @@ brew install gh
     <td align="center"><a href="https://github.com/prakharrathi25"><img src="https://avatars.githubusercontent.com/u/38958532?v=4" width="100px;" alt="" style="border-radius:50%"/><br /><sub><b>Prakhar Rathi</b></sub></a><br /></td>
   </tr>
 </table>
+
+
+# Devpost Submission (will remove from Readme later)
+
+## Inspiration
+
+As software developers, we have often started new projects and then we forgot about it. This mostly happens because we don't track what items we are working on and what the deadline is. We might track a single repo and all the issues on it but what if we had one place which would track all of our issues and send us reminders when we don't work a specific deadline irrespective of what the repository may be. Presenting to you, GitDash...
+
+![homepage](https://i.stack.imgur.com/4jHeh.png)
+
+## What it does
+
+![dashboard](https://i.stack.imgur.com/3PLuQ.png)
+
+## How we built it
+
+## Challenges we ran into
+
+## Accomplishments that we're proud of
+
+## What we learned
+
+## What's next for Pod 3.1.3 - GitDash
