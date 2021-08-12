@@ -24,7 +24,10 @@ export default function RepoCard({
             <Icon as={GoRepo}></Icon>
           </Box>
           <Box>
-            <Link href={`https://github.com/${repoOwner}/${repoName}`}>
+            <Link
+              href={`https://github.com/${repoOwner}/${repoName}`}
+              target="_blank"
+            >
               <Heading fontWeight="800" size="md">
                 {`${repoOwner}/${repoName}`}
               </Heading>

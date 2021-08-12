@@ -49,6 +49,18 @@ export default function SocialCard({
                 Followers
               </Text>
             </Stack>
+            <Stack spacing={0} align={"center"}>
+              <Text fontWeight={600}>{githubData.stars}</Text>
+              <Text fontSize={"sm"} color={"gray.500"}>
+                Stars
+              </Text>
+            </Stack>
+            <Stack spacing={0} align={"center"}>
+              <Text fontWeight={600}>{githubData.starred}</Text>
+              <Text fontSize={"sm"} color={"gray.500"}>
+                Starred
+              </Text>
+            </Stack>
           </Stack>
         </Box>
       </Box>

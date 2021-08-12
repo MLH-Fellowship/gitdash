@@ -20,13 +20,8 @@ import {
   MenuItem,
   MenuList,
 } from "@chakra-ui/react";
-import {
-  FiHome,
-  FiMenu,
-  FiChevronDown,
-  FiLogIn,
-} from "react-icons/fi";
-import { GoRepo, GoStar } from 'react-icons/go'
+import { FiHome, FiMenu, FiChevronDown, FiLogIn } from "react-icons/fi";
+import { GoRepo, GoStar } from "react-icons/go";
 import { IconType } from "react-icons";
 import { ReactText } from "react";
 
