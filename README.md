@@ -31,11 +31,11 @@ In this section, you can see the dashboard of your profile and the details that 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## ⚡ Installation
-
+### Client side
 First install the dependencies for the project:
 
 ```bash
-cd gitdash
+cd client
 npm install
 ```
 
@@ -45,9 +45,28 @@ Then, run the development server:
 npm run dev
 ```
 
+### Server side
+#### Pre-requisites
+Please ensure you have:
+- [.NET sdk](https://dotnet.microsoft.com/download)
+
+In order for favourites feature to work you must run the server api.
+
+First install the dependencies for the project:
+```bash
+cd server
+dotnet build
+```
+
+Then, run the development server:
+```bash
+cd server/api
+dotnet run
+```
+
 ### GitHub Authentication
 
-To get the GitHub authentication to work, you need to create a `.env` file in the `gitdash` directory with the following content
+To get the GitHub authentication to work, you need to create a `.env` file in the `client` directory with the following content
 
 ```bash
 GITHUB_ID=<your_github_client_id>
@@ -77,6 +96,24 @@ You can start editing the page by modifying `pages/index.tsx`. The page auto-upd
 
 The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
+### Server side and Cockroach Cloud Setup
+To set up cockroachDb cloud follow instructions [here](https://www.cockroachlabs.com/get-started-cockroachdb/)
+To connect to cockroachDb, edit the connection stringsd in the `appsettings.Development.json` file in the `server/api` directory with the following content:
+```bash
+...
+  "ConnectionStrings": {
+    "DefaultConnection": "Server={host}; Port={port}; User Id={user}; Password={password}; Database={cluster.database}; SSL Mode=Require; Root Certificate={certificate location}; Trust Server Certificate=true"
+...
+```
+Where:
+ - `{host}` is your host name 
+ - `{port}` is your port number
+ - `{user}` is your user to connect to cockroachDB 
+ - `{password}` is your password to connect to cockroachDB 
+ - `{cluster}` is your cluster name 
+ - `{certificate location}` is the directory location to your certificate (Cloud cockroachDB requires SSL)
+
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
@@ -95,10 +132,12 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 ## :wrench: Tech Stack
 
 - Next.js 
-- Cockroach DB 
+- Cockroach DB Cloud 
 - TypeScript
 - Chakra UI
 - Octokit Core.js
+- .Net
+- Entity Framework Core
 <!-- - Linode -->
 
 
