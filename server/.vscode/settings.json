@@ -1,9 +1,0 @@
-{
-    "workbench.preferredDarkColorTheme": "Monokai",
-    "workbench.colorTheme": "Visual Studio 2019 Dark",
-    "files.exclude": {
-        "**/.vs": true,
-        "**/bin": true,
-        "**/obj": true
-    }
-}

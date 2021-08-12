@@ -6,6 +6,7 @@
 appsettings.Development.json
 wwwroot
 publish
+.vscode
 
 # User-specific files
 *.rsuser
