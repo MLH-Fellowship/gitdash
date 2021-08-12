@@ -88,7 +88,7 @@ namespace API.Controllers
 
             if (favourite.Repositories.Any(x => x.RepoId == favouriteToCreateDto.RepoId))
             {
-                return BadRequest(new ApiResponse(400, "Already a favourite!"));
+                return Ok(mapper.Map<Favourite, FavouriteToReturnDto>(favourite));
             }
 
             var newRepoToAdd = new Repository
