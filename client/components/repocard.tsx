@@ -2,41 +2,50 @@ import { Box, Heading, Flex, Icon, Text, Button, Link } from "@chakra-ui/react";
 import { GoRepo } from "react-icons/go";
 import { AiOutlineStar, AiFillStar } from "react-icons/ai";
 import { FiGlobe } from "react-icons/fi";
-import { makeAutoObservable } from "mobx"
-import { observer } from "mobx-react"
+import { makeAutoObservable } from "mobx";
 import axios from "axios";
 
-async function toggleFavourite(
-  userId: string,
-  repoId: string,
-  isFavourite: boolean
-) {
-  if (!isFavourite) {
-    axios
-      .post("https://api.gitdash.tech/favourite", {
-        userId: userId,
-        repoId: repoId,
-      })
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  } else {
-    axios
-      .delete("https://api.gitdash.tech/favourite", {
-        data: {
+class IsFavourite {
+  isFavourite = false;
+
+  constructor(isFavourite: boolean) {
+    makeAutoObservable(this);
+    this.isFavourite = isFavourite;
+  }
+
+  async addOrDelete(userId: string, repoId: string, isFavourite: boolean) {
+    this.isFavourite = !isFavourite;
+    if (!isFavourite) {
+      await axios
+        .post("https://api.gitdash.tech/favourite", {
           userId: userId,
           repoId: repoId,
-        },
-      })
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+        })
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    } else {
+      await axios
+        .delete("https://api.gitdash.tech/favourite", {
+          data: {
+            userId: userId,
+            repoId: repoId,
+          },
+        })
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+  }
+
+  reset() {
+    this.isFavourite = false;
   }
 }
 
@@ -59,6 +68,8 @@ export default function RepoCard({
   numStars: number;
   isFavourite: boolean;
 }) {
+  const FavouriteFlag = new IsFavourite(isFavourite);
+
   return (
     <Box borderRadius="lg" backgroundColor="gray.800" m="5">
       <Flex direction="row" justifyContent="space-between" pt={4} pl={4} pr={4}>
@@ -82,7 +93,9 @@ export default function RepoCard({
             <Button
               leftIcon={<AiFillStar />}
               variant="ghost"
-              onClick={() => toggleFavourite(userId, repoId, isFavourite)}
+              onClick={() =>
+                FavouriteFlag.addOrDelete(userId, repoId, isFavourite)
+              }
             >
               Favourite
             </Button>
@@ -91,7 +104,9 @@ export default function RepoCard({
             <Button
               leftIcon={<AiOutlineStar />}
               variant="ghost"
-              onClick={() => toggleFavourite(userId, repoId, isFavourite)}
+              onClick={() =>
+                FavouriteFlag.addOrDelete(userId, repoId, isFavourite)
+              }
             >
               Favourite
             </Button>
