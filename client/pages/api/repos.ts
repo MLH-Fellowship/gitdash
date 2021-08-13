@@ -1,18 +1,11 @@
 import { getSession } from "next-auth/client";
 import { Octokit } from "@octokit/core";
-import parse from "parse-link-header";
-
 import axios from "axios";
 import https from "https";
+import { Favourite } from "../../models/Favourite";
 
-export interface Repository {
-  repoId: string;
-}
 
-export interface Favourite {
-  userId: string;
-  repositories: Repository[];
-}
+
 
 export default async function GetDetails(
   req: any,
