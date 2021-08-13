@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v2
       - uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '5.1.x'
+          dotnet-version: '5.0.x'
       - name: Restore Dependencies
         run: dotnet restore
       - name: Create Production Build
@@ -23,16 +23,18 @@ jobs:
       - name: Inject Secrets
         uses: microsoft/variable-substitution@v1
         with:
-          files: './API/bin/Release/netcoreapp5.0/publish/appsettings.Production.json'
+          files: '**/appsettings.Production.json'
         env:
           ConnectionStrings.DefaultConnection: ${{ secrets.COCKROACHDB_CONNECTION_STRING }}
-          AdminPassword: ${{ secrets.ADMIN_PASSWORD }}
       - name: Push to Linode
         run: |
           echo "$ssh_key" > ~/ssh_key
           chmod 600 ~/ssh_key
-          rsync -e "ssh -i ~/ssh_key -o StrictHostKeyChecking=no" -avzr ./API/bin/Release/netcoreapp5.0/publish/ "$user"@"$target_ip":/var/gitdash-api
         env:
           ssh_key: ${{ secrets.CICD_SSH }}
+      - name: Push Files
+        run:    
+          rsync -avrzP ./API/bin/Release/net5.0/publish/ --no-perms -O -e "ssh -i ~/ssh_key -o StrictHostKeyChecking=no" "$user"@"$target_ip":/var/gitdash/api
+        env:
           user: ${{ secrets.CICD_USER }}
           target_ip: ${{ secrets.LINODE_IP }}
