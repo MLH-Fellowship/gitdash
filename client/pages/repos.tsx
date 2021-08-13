@@ -14,7 +14,7 @@ async function fetcher(...arg: any) {
 }
 
 export default function Repos() {
-  const { data: githubData } = useSWR("/api/github", fetcher);
+  const { data: githubData } = useSWR("/api/profile", fetcher);
   const { data: repoData } = useSWR("/api/repos", fetcher, );
 
   return (

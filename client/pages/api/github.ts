@@ -10,14 +10,10 @@ export default async function GetDetails(
       new (): any;
       json: {
         (arg0: {
-          stars: any;
-          followers: any;
-          starred: any;
           all_repos: any;
           repo_count: any;
           issues: any;
           issue_count: any;
-          id: any;
         }): any;
         new (): any;
       };
@@ -36,26 +32,6 @@ export default async function GetDetails(
 
   // Get all repos
   const repos = await octokit.request("GET /user/repos");
-
-  // Number of followers
-  const followerCount = userData.data.followers;
-
-  // Number of stars
-  // Note this really needs some way of optimizing instead of getting all the repos, parsing
-  // and adding. GraphQL!!!!!!!! We need this optimisation in a lot of places 
-  const starsCount = repos.data
-    .filter((repo: { fork: any }) => !repo.fork)
-    .reduce((acc: any, item: { stargazers_count: any }) => {
-      return acc + item.stargazers_count;
-    }, 0);
-
-  // Making the request to get the response :/
-  const reposStarred = await octokit.request("GET /user/starred?per_page=1");
-
-  // Parsing the starred repos using a library
-  const linkHeader = reposStarred.headers.link;
-  const parsed = linkHeader ? parse(linkHeader) : parse('');
-  const starredCount = parsed?.last.page;
 
   // Number of issues
   const issueCount = repos.data
@@ -78,13 +54,9 @@ export default async function GetDetails(
 
   // Return the counts
   return res.status(200).json({
-    stars: starsCount,
-    followers: followerCount,
-    starred: starredCount,
     all_repos: repo_names,
     repo_count: num_repos,
     issues: issueLinks,
     issue_count: issueCount,
-    id: userData.data.id
   });
 }
