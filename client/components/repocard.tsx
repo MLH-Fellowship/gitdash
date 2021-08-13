@@ -2,7 +2,8 @@ import { Box, Heading, Flex, Icon, Text, Button, Link } from "@chakra-ui/react";
 import { GoRepo } from "react-icons/go";
 import { AiOutlineStar, AiFillStar } from "react-icons/ai";
 import { FiGlobe } from "react-icons/fi";
-
+import { makeAutoObservable } from "mobx"
+import { observer } from "mobx-react"
 import axios from "axios";
 
 async function toggleFavourite(
