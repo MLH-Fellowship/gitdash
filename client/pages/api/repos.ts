@@ -46,7 +46,6 @@ export default async function GetDetails(
       }),
     })
     .then(function (response) {
-      console.log(response.data);
       favourites = response.data;
     })
     .catch(function (error) {
@@ -96,14 +95,19 @@ export default async function GetDetails(
       }
     });
 
-    console.log(repo_information);
-
     // Append to the final output array
     final_output.push(repo_information);
   }
 
+  // Sorting the array to return favourites first
+  let response = final_output.sort(function(a, b) {
+    return b.isFavourite - a.isFavourite ||
+      b.isFavourite - a.isFavourite ||
+      b.isFavourite - a.isFavourite
+  })
+
   // Return the data
   return res.status(200).json({
-    allRepoData: final_output,
+    allRepoData: response,
   });
 }
