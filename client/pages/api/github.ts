@@ -14,6 +14,7 @@ export default async function GetDetails(
           repo_count: any;
           issues: any;
           issue_count: any;
+          id: any;
         }): any;
         new (): any;
       };
@@ -58,5 +59,6 @@ export default async function GetDetails(
     repo_count: num_repos,
     issues: issueLinks,
     issue_count: issueCount,
+    id: userData.data.id
   });
 }
