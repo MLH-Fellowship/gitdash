@@ -35,7 +35,7 @@ export default function IssueCard({
 }) {
   return (
     <Flex
-      w="sm"
+      w="xs"
       flexDirection="column"
       borderRadius="lg"
       backgroundColor="gray.800"

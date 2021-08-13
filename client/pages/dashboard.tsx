@@ -8,11 +8,14 @@ import {
   Stack,
   VStack,
   Spinner,
+  Heading,
+  SimpleGrid,
 } from "@chakra-ui/react";
 import Head from "next/head";
 import Sidebar from "../components/sidebar";
 import IssueCard from "../components/issuecard";
 import useSWR from "swr";
+import RepoCard from "../components/repocard";
 
 async function fetcher(...arg: any) {
   try {
@@ -27,9 +30,7 @@ export default function Dashboard() {
   const { data: githubData } = useSWR("/api/github", fetcher);
   const { data: issueData } = useSWR("/api/issues", fetcher);
   const { data: prData } = useSWR("/api/pulls", fetcher);
-
-  console.log(issueData);
-  console.log(prData);
+  const { data: repoData } = useSWR("/api/repos", fetcher);
 
   return (
     <>
@@ -38,6 +39,38 @@ export default function Dashboard() {
       </Head>
       {githubData ? (
         <Sidebar pageTitle="Dashboard" githubData={githubData}>
+          <Flex flexDirection="column" align="center">
+            <Heading>Your Favourites</Heading>
+            <SimpleGrid columns={{ base: 1, lg: 2 }}>
+              {repoData ? (
+                repoData?.allRepoData
+                  .slice(0, 6)
+                  .map((repo: any) => (
+                    <RepoCard
+                      key={repo.id}
+                      repoName={repo.repoName}
+                      repoOwner={repo.owner}
+                      description={repo.description}
+                      primaryLanguage={repo.primaryLanguage}
+                      numStars={repo.stargazersCount}
+                      size="sm"
+                    />
+                  ))
+              ) : (
+                <Flex
+                  justifyContent="center"
+                  alignItems="center"
+                  flexDirection="column"
+                  mt={5}
+                >
+                  <Text fontSize="xl" fontWeight={600}>
+                    Please wait...{"\n"}
+                  </Text>
+                  <Spinner size="xl" />
+                </Flex>
+              )}
+            </SimpleGrid>
+          </Flex>
           <Flex justify="center" wrap="wrap" mt={5}>
             <Stack
               direction={{ base: "column", xl: "row" }}
