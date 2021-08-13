@@ -1,6 +1,6 @@
 import Sidebar from "../components/sidebar";
 import useSWR from "swr";
-import { Center, Heading, Spinner } from "@chakra-ui/react";
+import { Center, Heading, Spinner, Flex, Text } from "@chakra-ui/react";
 import RepoCard from "../components/repocard";
 import Head from "next/head";
 
@@ -35,12 +35,21 @@ export default function Repos() {
               primaryLanguage={repo.primaryLanguage}
               numStars={repo.stargazersCount}
               isFavourite={repo.isFavourite}
+              size="5xl"
             />
           ))
         ) : (
-          <Center>
-            <Spinner size="xl"></Spinner>
-          </Center>
+          <Flex
+            justifyContent="center"
+            alignItems="center"
+            flexDirection="column"
+            mt={5}
+          >
+            <Text fontSize="xl" fontWeight={600}>
+              Please wait...{"\n"}
+            </Text>
+            <Spinner size="xl" />
+          </Flex>
         )}
       </Sidebar>
     </>
