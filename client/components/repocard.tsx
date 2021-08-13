@@ -3,18 +3,60 @@ import { GoRepo } from "react-icons/go";
 import { AiOutlineStar, AiFillStar } from "react-icons/ai";
 import { FiGlobe } from "react-icons/fi";
 
+import axios from "axios";
+
+async function toggleFavourite(
+  userId: string,
+  repoId: string,
+  isFavourite: boolean
+) {
+  if (!isFavourite) {
+    axios
+      .post("https://api.gitdash.tech/favourite", {
+        userId: userId,
+        repoId: repoId,
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  } else {
+    axios
+      .delete("https://api.gitdash.tech/favourite", {
+        data: {
+          userId: userId,
+          repoId: repoId,
+        },
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+}
+
 export default function RepoCard({
+  repoId,
+  userId,
   repoName,
   repoOwner,
   description,
   primaryLanguage,
   numStars,
+  isFavourite,
 }: {
+  repoId: string;
+  userId: string;
   repoName: string;
   repoOwner: string;
   description: string;
   primaryLanguage: string;
   numStars: number;
+  isFavourite: boolean;
 }) {
   return (
     <Box borderRadius="lg" backgroundColor="gray.800" m="5">
@@ -35,9 +77,24 @@ export default function RepoCard({
           </Box>
         </Flex>
         <Box>
-          <Button leftIcon={<AiOutlineStar />} variant="ghost">
-            Favourite
-          </Button>
+          {isFavourite === true && (
+            <Button
+              leftIcon={<AiFillStar />}
+              variant="ghost"
+              onClick={() => toggleFavourite(userId, repoId, isFavourite)}
+            >
+              Favourite
+            </Button>
+          )}
+          {isFavourite === false && (
+            <Button
+              leftIcon={<AiOutlineStar />}
+              variant="ghost"
+              onClick={() => toggleFavourite(userId, repoId, isFavourite)}
+            >
+              Favourite
+            </Button>
+          )}
         </Box>
       </Flex>
       <Flex pb={4} pl={4} pr={4}>

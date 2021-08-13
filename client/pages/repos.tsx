@@ -28,12 +28,15 @@ export default function Repos() {
         {repoData ? (
           repoData?.allRepoData.map((repo: any) => (
             <RepoCard
+              repoId={repo.id}
+              userId={githubData.id}
               key={repo.id}
               repoName={repo.repoName}
               repoOwner={repo.owner}
               description={repo.description}
               primaryLanguage={repo.primaryLanguage}
               numStars={repo.stargazersCount}
+              isFavourite={repo.isFavourite}
             />
           ))
         ) : (
