@@ -28,9 +28,6 @@ export default function Dashboard() {
   const { data: issueData } = useSWR("/api/issues", fetcher);
   const { data: prData } = useSWR("/api/pulls", fetcher);
 
-  console.log(issueData);
-  console.log(prData);
-
   return (
     <>
       <Head>
