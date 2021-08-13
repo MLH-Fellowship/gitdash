@@ -47,7 +47,7 @@ export default async function GetDetails(
 
   // Get favourite repos from api
   await axios
-    .get("http://localhost:5000/api/favourite/" + userData.data.id, {
+    .get("https://api.gitdash.tech/favourite/" + userData.data.id, {
       httpsAgent: new https.Agent({
         rejectUnauthorized: false,
       }),
