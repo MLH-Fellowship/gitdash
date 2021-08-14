@@ -3,6 +3,9 @@ import useSWR from "swr";
 import { Center, Heading, Spinner, Flex, Text } from "@chakra-ui/react";
 import RepoCard from "../components/repocard";
 import Head from "next/head";
+import React, { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic'
+import { useSession } from "next-auth/client";
 
 async function fetcher(...arg: any) {
   try {
@@ -15,7 +18,15 @@ async function fetcher(...arg: any) {
 
 export default function Repos() {
   const { data: githubData } = useSWR("/api/profile", fetcher);
-  const { data: repoData } = useSWR("/api/repos", fetcher, );
+  // const { data: repoData } = useSWR("/api/repos", fetcher, );
+  const [repoData, setRepoData] = useState(null);
+
+  useEffect(() => {
+    fetch("http://localhost:3000/api/repos")
+    .then(response => response.json())
+    .then((data: any) => setRepoData(data))
+  }, []);
+
 
   return (
     <>
@@ -55,3 +66,4 @@ export default function Repos() {
     </>
   );
 }
+

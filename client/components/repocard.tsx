@@ -5,8 +5,41 @@ import { FiGlobe } from "react-icons/fi";
 import { makeAutoObservable } from "mobx";
 import axios from "axios";
 
+async function addOrRemoveFavourite(
+  userId: string,
+  repoId: string,
+  isFavourite: boolean
+) {
+  if (!isFavourite) {
+    axios
+      .post("https://api.gitdash.tech/favourite", {
+        userId: userId,
+        repoId: repoId,
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  } else {
+    axios
+      .delete("https://api.gitdash.tech/favourite", {
+        data: {
+          userId: userId,
+          repoId: repoId,
+        },
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+}
 class IsFavourite {
-  isFavourite = false;
+  isFavourite;
 
   constructor(isFavourite: boolean) {
     makeAutoObservable(this);
@@ -15,41 +48,13 @@ class IsFavourite {
 
   async addOrDelete(userId: string, repoId: string, isFavourite: boolean) {
     this.isFavourite = !isFavourite;
-    if (!isFavourite) {
-      await axios
-        .post("https://api.gitdash.tech/favourite", {
-          userId: userId,
-          repoId: repoId,
-        })
-        .then(function (response) {
-          console.log(response);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    } else {
-      await axios
-        .delete("https://api.gitdash.tech/favourite", {
-          data: {
-            userId: userId,
-            repoId: repoId,
-          },
-        })
-        .then(function (response) {
-          console.log(response);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    }
+    addOrRemoveFavourite(userId, repoId, isFavourite);
   }
 
   reset() {
     this.isFavourite = false;
   }
 }
-
-
 
 export default function RepoCard({
   repoId,
@@ -93,7 +98,7 @@ export default function RepoCard({
           </Box>
         </Flex>
         <Box>
-          {isFavourite === true && (
+          {FavouriteFlag.isFavourite && (
             <Button
               leftIcon={<AiFillStar />}
               variant="ghost"
@@ -104,7 +109,7 @@ export default function RepoCard({
               Favourite
             </Button>
           )}
-          {isFavourite === false && (
+          {!FavouriteFlag.isFavourite && (
             <Button
               leftIcon={<AiOutlineStar />}
               variant="ghost"
