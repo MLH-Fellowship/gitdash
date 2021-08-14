@@ -32,6 +32,11 @@ export default function Dashboard() {
   const { data: prData } = useSWR("/api/pulls", fetcher);
   const { data: repoData } = useSWR("/api/repos", fetcher);
 
+  for (var i = repoData?.allRepoData.length - 1; i >= 0; --i) {
+    if (!repoData?.allRepoData[i].isFavourite) {
+      repoData?.allRepoData.splice(i, 1);
+    }
+  }
   return (
     <>
       <Head>
@@ -48,12 +53,15 @@ export default function Dashboard() {
                   .map((repo: any) => (
                     <RepoCard
                       key={repo.id}
+                      repoId={repo.Id}
+                      userId={githubData.id}
                       repoName={repo.repoName}
                       repoOwner={repo.owner}
                       description={repo.description}
                       primaryLanguage={repo.primaryLanguage}
                       numStars={repo.stargazersCount}
                       size="sm"
+                      isFavourite={repo.isFavourite}
                     />
                   ))
               ) : (
