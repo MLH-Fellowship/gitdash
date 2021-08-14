@@ -1,0 +1,31 @@
+name: NextJs app Build nad Deploy to Linode
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build our App
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull Code
+      steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: Install Dependencies
+        run: npm install
+        working-directory: client
+      - name: Install Dependencies
+        run: npm run build
+        working-directory: client
+      - name: Push to Linode
+        run: |
+          echo "$ssh_key" > ~/ssh_key
+          chmod 600 ~/ssh_key
+          rsync -e "ssh -i ~/ssh_key -o StrictHostKeyChecking=no" -avzr ./client/ "$user"@"$target_ip":/var/gitdash/app
+        env:
+          ssh_key: ${{ secrets.CICD_SSH }}
+          user: ${{ secrets.CICD_USER }}
+          target_ip: ${{ secrets.LINODE_IP }}
