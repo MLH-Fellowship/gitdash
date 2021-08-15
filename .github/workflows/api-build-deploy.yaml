@@ -1,0 +1,40 @@
+name: API Build and Deploy to Linode
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build our App
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./server
+    steps:
+      - name: Pull Code
+        uses: actions/checkout@v2
+      - uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '5.0.x'
+      - name: Restore Dependencies
+        run: dotnet restore
+      - name: Create Production Build
+        run: dotnet publish -c Release --no-restore
+      - name: Inject Secrets
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: '**/appsettings.Production.json'
+        env:
+          ConnectionStrings.DefaultConnection: ${{ secrets.COCKROACHDB_CONNECTION_STRING }}
+      - name: Push to Linode
+        run: |
+          echo "$ssh_key" > ~/ssh_key
+          chmod 600 ~/ssh_key
+        env:
+          ssh_key: ${{ secrets.CICD_SSH }}
+      - name: Push Files
+        run:    
+          rsync -avrzP ./API/bin/Release/net5.0/publish/ --no-perms -O -e "ssh -i ~/ssh_key -o StrictHostKeyChecking=no" "$user"@"$target_ip":/var/gitdash/api
+        env:
+          user: ${{ secrets.CICD_USER }}
+          target_ip: ${{ secrets.LINODE_IP }}
